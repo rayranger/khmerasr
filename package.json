@@ -1,0 +1,26 @@
+{
+  "name": "khmerasr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-css": "npx tailwindcss -i ./khmerasr/static/css/src/input.css -o ./khmerasr/static/css/dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rayranger/khmerasr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rayranger/khmerasr/issues"
+  },
+  "homepage": "https://github.com/rayranger/khmerasr#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.1.8"
+  },
+  "dependencies": {
+    "tw-elements": "^1.0.0-alpha12"
+  }
+}

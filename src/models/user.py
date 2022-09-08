@@ -1,0 +1,19 @@
+from src import db
+from src.models import role
+
+user_role = db.Table ('user_role',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+)
+
+class User (db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.String(), nullable=False, unique=True)
+    email = db.Column(db.String(), nullable=False)
+    password = db.Column(db.String(), nullable=False)
+    created_at = db.Column(db.String(), nullable=False)
+    updated_at = db.Column(db.String(), nullable=False)
+
+    roles = db.relationship('Role', secondary=user_role, backref='users')
+    speaker = db.relationship('Speaker', backref='user')

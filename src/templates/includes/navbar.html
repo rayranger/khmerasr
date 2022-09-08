@@ -1,0 +1,51 @@
+<div class="w-screen p-3 px-6 bg-blue-800 text-white shadow-xl absolute">
+  <div class="sm:hidden flex flex-row items-center space-x-3 justify-between">
+    <div>
+      <div class="uppercase py-2 px-4 rounded-md bg-white text-gray-700">
+        <h1>
+          <a href="">Record voice</a>
+        </h1>
+      </div>
+    </div>
+    <div class="text-xl">
+      <i class="fa-solid fa-grip"></i>
+    </div>
+  </div>
+  <div class="sm:flex flex-row items-center justify-between hidden">
+    <div class="flex flex-row space-x-8 items-center">
+      <div class="uppercase py-2 px-4 rounded-md bg-white text-gray-700">
+        <h1>
+          <a href="">Dashboard</a>
+        </h1>
+      </div>
+      <div class="uppercase">
+        <h1>
+          <a href="{{ url_for('home_page') }}">Home</a>
+        </h1>
+      </div>
+      <div class="uppercase">
+        <h1>
+          <a href="">Record Voice</a>
+        </h1>
+      </div>
+    </div>
+    <div class="flex flex-row space-x-5 items-center">
+      <div class="flex flex-row space-x-2 items-center border rounded-md px-3 py-1">
+          <div>
+            <i class="fa-solid fa-right-to-bracket"></i>
+          </div>
+          <div>
+            <a href="{{ url_for('signin_page') }}">Sign in</a>
+          </div>
+      </div>
+      <div class="flex-row space-x-2 items-center hidden">
+        <div>
+          <i class="fa-solid fa-pen-to-square"></i>
+        </div>
+        <div>
+          <a href="#">Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
