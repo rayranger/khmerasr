@@ -15,5 +15,7 @@ class User (db.Model):
     created_at = db.Column(db.String(), nullable=False)
     updated_at = db.Column(db.String(), nullable=False)
 
-    roles = db.relationship('Role', secondary=user_role, backref='users')
-    speaker = db.relationship('Speaker', backref='user')
+    roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True)
+    speaker = db.relationship('Speaker', backref='user', lazy=True, uselist=False)
+    config = db.relationship('RecordConfig', backref='config_owner', lazy=True, uselist=False)
+    tasks = db.relationship('Task', backref='created_by', lazy=True)

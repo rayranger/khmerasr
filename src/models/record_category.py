@@ -7,3 +7,11 @@ class RecordCategory(db.Model):
     updated_at = db.Column(db.String(), nullable=False)
 
     records = db.relationship('Record', backref='record_category', lazy=True)
+
+    # def __repr__(self):
+    #     return ({
+    #         'id':self.id,
+    #         'name':self.name,
+    #         'created_at':self.created_at,
+    #         'updated_at':self.updated_at
+    #     })

@@ -3,8 +3,8 @@ from src import db
 class Record(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     filename = db.Column(db.String(), nullable=False, unique=True)
-    file_type = db.Column(db.String(), nullable=False)
-    file_size = db.Column(db.Float(), nullable=False)
+    filetype = db.Column(db.String(), nullable=False)
+    filesize = db.Column(db.Float(), nullable=False)
     channel = db.Column(db.Integer(), nullable=False)
     sample_framerate = db.Column(db.Integer(), nullable=False)
     sample_frame = db.Column(db.Integer(), nullable=False)
