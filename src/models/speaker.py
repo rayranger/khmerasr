@@ -1,4 +1,5 @@
 from src import db
+from src.models.default_values import TODAY_DATE_TIME
 
 class Speaker(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -10,8 +11,8 @@ class Speaker(db.Model):
     phone_number = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.String(), nullable=False)
     updated_at = db.Column(db.String(), nullable=False)
-    created_at = db.Column(db.String(), nullable=False)
-    updated_at = db.Column(db.String(), nullable=False)
+    created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
+    updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
 
     from src.models.user import User
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)

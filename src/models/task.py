@@ -1,4 +1,5 @@
 from src import db
+from src.models.default_values import TODAY_DATE_TIME
 
 user_completed_task = db.Table ('user_completed_task',
     db.Column('id', db.Integer, primary_key=True),
@@ -12,8 +13,8 @@ class Task (db.Model):
     description = db.Column(db.String(length=500), nullable=True)
     instruction = db.Column(db.String(length=500), nullable=False)
     sample_audio_name = db.Column(db.String(), nullable=True, unique=True)
-    created_at = db.Column(db.String(), nullable=False)
-    updated_at = db.Column(db.String(), nullable=False)
+    created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
+    updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
 
     from src.models import user
     created_user_id = db.Column(db.String(), db.ForeignKey('user.id'), nullable=False)
