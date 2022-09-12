@@ -3,11 +3,12 @@ from src import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages
 from src.forms.register_form import RegisterForm
 from src.forms.sing_in_form import SigninForm
-from src.controllers import user_controller, role_controller
+from src.controllers import user_controller, role_controller, speaker_controller, record_category_controller
 from src.models.user import User
 from src.models.role import Role
 from src import db
 from flask_login import login_user, logout_user, login_required
+import json
 
 userController = user_controller.UserController()
 
@@ -34,13 +35,27 @@ def signout_page():
 def register_page():
     register_form = RegisterForm()
     roleController = role_controller.RoleController()
+    userController = user_controller.UserController()
+    speakerController = speaker_controller.SpeakerController()
+
     roles = roleController.get_all_roles()
+
     if register_form.validate_on_submit():
-        new_user = User(username=register_form.username.data, email=register_form.email.data, password=register_form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-        new_user.roles.append(roles[1])
-        db.session.commit()
+        new_user = userController.create_user(
+            username=register_form.username.data, 
+            email=register_form.email.data, 
+            password=register_form.password.data,
+            role=roles[1]
+        )
+        speakerController.create_speaker(
+            first_name=register_form.first_name.data,
+            last_name=register_form.last_name.data,
+            gender=register_form.gender.data,
+            age=register_form.age.data,
+            occupation=register_form.occupation.data,
+            phone_number=register_form.phone_number.data,
+            user_id=userController.is_existed(data=register_form.username.data).id
+        )
         login_user(new_user)
         return redirect(url_for('home_page'))
     if register_form.errors != {}:
@@ -51,7 +66,7 @@ def register_page():
 @app.route('/')
 def home_page():
     return render_template('home.html')
-
+    
 @app.route('/record')
 @login_required
 def record_page():
