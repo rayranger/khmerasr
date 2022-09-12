@@ -18,5 +18,5 @@ class Task (db.Model):
 
     from src.models import user
     created_user_id = db.Column(db.String(), db.ForeignKey('user.id'), nullable=False)
-    user_completed_tasks = db.relationship('User', secondary=user_completed_task, backref="completed_tasks", lazy=True)
+    user_completed_tasks = db.relationship('User', secondary=user_completed_task, backref="completed_tasks", lazy=True, cascade="all,delete")
 

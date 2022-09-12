@@ -5,6 +5,7 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
+    # return User.query.filter_by(id=user_id)
     return User.query.get(int(user_id))
 
 
@@ -33,7 +34,7 @@ class User (db.Model, UserMixin):
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
-    roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True)
-    speaker = db.relationship('Speaker', backref='user', lazy=True, uselist=False)
-    config = db.relationship('RecordConfig', backref='config_owner', lazy=True, uselist=False)
-    tasks = db.relationship('Task', backref='created_by', lazy=True)
+    roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True, cascade="all,delete")
+    speaker = db.relationship('Speaker', backref='user', lazy=True, uselist=False, cascade="all,delete")
+    config = db.relationship('RecordConfig', backref='config_owner', lazy=True, uselist=False, cascade="all,delete")
+    tasks = db.relationship('Task', backref='created_by', lazy=True, cascade="all,delete")

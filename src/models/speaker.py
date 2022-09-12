@@ -16,4 +16,4 @@ class Speaker(db.Model):
 
     from src.models.user import User
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    records = db.relationship('Record', backref='speaker', lazy=True)
+    records = db.relationship('Record', backref='speaker', lazy=True, cascade="all,delete")
