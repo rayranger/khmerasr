@@ -1,5 +1,5 @@
 from multiprocessing.util import is_exiting
-from src.models import user, speaker, record_config, task, record
+from src.models import user, speaker, record_config, task, record, default_values
 from src import db
 
 class UserController():
@@ -30,8 +30,16 @@ class UserController():
             user_obj.username = new_user_obj.username
             user_obj.password = new_user_obj.password
             user_obj.email = new_user_obj.email
+            user_obj.updated_at = default_values.TODAY_DATE_TIME
             db.session.commit()
             return new_user_obj
         else:
             return None
+    
+    def get_all_user(self):
+        users = user.User.query.all()
+        userList = []
+        for user in users:
+            userList.append(user)
+        return userList
 

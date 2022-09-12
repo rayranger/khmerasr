@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register
+{% endblock %}
+{% block content %}
+    <div class="flex flex-row items-center justify-center w-screen h-screen py-5">
+        <div class="p-10 flex flex-col space-y-5 text-gray-700 max-w-min sm:min-w-max h-full sm:justify-center">
+            <div class="text-3xl font-bold flex flex-row space-x-3 items-center">
+                <div>
+                    <h1>Register</h1>
+                </div>
+                <div>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+            </div>
+            <div class="flex flex-row space-x-3 items-center">
+                <div>
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div>
+                    <p>Welcome! you are now on Khmer Voice ASR platform.</p>
+                </div>
+            </div>
+            <div>
+                <form method="post">
+                    {{register_form.hidden_tag()}}
+                    <div class="flex flex-col space-y-5">
+                        <div class="flex sm:flex-row sm:space-x-5 sm:space-y-0 items-start justify-center flex-col space-x-0 space-y-5">
+                            <div class="flex flex-col space-y-5">
+                                <div>
+                                    {{register_form.first_name(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='firstname')}}
+                                </div>
+                                <div>
+                                    {{register_form.last_name(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='lastname')}}
+                                </div>
+                                <div>
+                                    {{register_form.gender(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='gender')}}
+                                </div>
+                                <div>
+                                    {{register_form.age(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='age')}}
+                                </div>
+                                <div>
+                                    {{register_form.occupation(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='occupation')}}
+                                </div>
+                            </div>
+                            <div class="flex flex-col space-y-5">
+                                <div>
+                                    {{register_form.phone_number(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='phone number')}}
+                                </div>
+                                <div>
+                                    {{register_form.username(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='username')}}
+                                </div>
+                                <div>
+                                    {{register_form.email(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='email')}}
+                                </div>
+                                <div>
+                                    {{register_form.password(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='password')}}
+                                </div>
+                                <div>
+                                    {{register_form.confirm_password(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='confirm password')}}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                        <div>
+                            {{register_form.submit(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full cursor-pointer hover:bg-blue-700 hover:border-blue-700 hover:text-white')}}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="font-bold text-center w-full">
+                <p>Or</p>
+            </div>
+            <div class="flex flex-row items-center justify-between w-full space-x-5">
+                <div class="w-1/2">
+                    <a href="">
+                        <div class="flex flex-row space-x-3 items-center justify-center py-2 px-4 sm:px-16 text-white bg-red-500 rounded-md">
+                            <div>
+                                <i class="fa-brands fa-google"></i>
+                            </div>
+                            <div>
+                                Google
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="w-1/2">
+                    <a href="">
+                        <div class="flex flex-row space-x-3 items-center justify-center py-2 px-4 sm:px-16 text-white bg-blue-500 rounded-md">
+                            <div>
+                                <i class="fa-brands fa-facebook"></i>
+                            </div>
+                            <div>
+                                Facebook
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <p>Already have an account? <span class=" font-bold"><a href="{{url_for('signin_page')}}" class="hover:underline">Sign in</a></span></p>
+            </div>
+        </div>
+        <div class="sm:block hidden">
+            <img src="https://i.pinimg.com/564x/96/53/64/9653646de9caaa4a484f6d949b84c8e5.jpg" alt="">
+        </div>
+    </div>
+{% endblock %}
