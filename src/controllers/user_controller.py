@@ -41,7 +41,9 @@ class UserController(UserMixin):
         if user_obj:
             db.session.delete(user_obj)
             db.session.commit()
-        return user_obj
+            return user_obj
+        else:
+            return None
     
     def get_all_user(self):
         users = user.User.query.all()
