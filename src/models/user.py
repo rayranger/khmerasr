@@ -1,3 +1,4 @@
+from email.policy import default
 from src import db, bcrypt, login_manager
 from src.models import role
 from src.models.default_values import TODAY_DATE_TIME
@@ -19,7 +20,7 @@ class User (db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(), nullable=False, unique=True)
     email = db.Column(db.String(), nullable=False)
-    password_hash = db.Column(db.String(), nullable=False)
+    password_hash = db.Column(db.String(), nullable=False, default="password_disable")
     created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
     updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
 
