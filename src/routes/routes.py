@@ -79,6 +79,12 @@ def record_page():
 @app.route('/record_audio', methods=['POST'])
 def record_audio_page():
     recordName = recordController.record(username=current_user.username)
+    recordController.create_record(
+            filename=recordName,
+            speaker_id=current_user.speaker.id,
+            category_id=1
+        )
+
     return jsonify(recordName)
 
 @app.route('/dashboard')
@@ -136,3 +142,11 @@ def dashboard_record_configuration_page():
             rate=request.form.get("framerate")
         )
     return render_template('dashboard/record_configuration.html', record_config_form=record_config_form, recordConfig=config)
+
+# dashboard-recorded_audio
+
+@app.route('/dashboard/record-audio')
+def dashboard_record_audio():
+    records = recordController.get_all_record()
+    print(records)
+    return render_template('dashboard/record_audio.html', records = records)

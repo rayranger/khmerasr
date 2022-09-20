@@ -16,6 +16,8 @@ FORMAT = pyaudio.paInt16
 CHANNELS = recordConfig[0].channel
 RATE = recordConfig[0].rate
 
+AUDIO_DIR = "storage/audios"
+
 # FRAMES_PER_BUFFER = 3200
 # FORMAT = pyaudio.paInt16
 # CHANNELS = 1
@@ -31,7 +33,6 @@ class RecordController():
             return None
 
     def record(self, username):
-        AUDIO_DIR = "storage/audios"
         FILE_NAME = f'{username}_{str(datetime.now().strftime("%d%m%Y_%H%M%S"))}.wav'
         FILE_PATH = os.path.join(AUDIO_DIR, FILE_NAME)
         print(FILE_PATH)
@@ -65,10 +66,11 @@ class RecordController():
         return FILE_NAME
 
     def create_record(self, filename, category_id, speaker_id):
-        if self.is_exiting(data=filename):
+        file_path = os.path.join(AUDIO_DIR, filename)
+        if self.is_existed(data=filename):
             return None
         else:
-            obj = wave.open(filename, "rb")
+            obj = wave.open(file_path, "rb")
             filetype="wav"
             filesize = obj.getnframes()
             channel = obj.getnchannels()
@@ -84,11 +86,29 @@ class RecordController():
                 sample_framerate=sample_framerate,
                 sample_frame=sample_frame,
                 total_frame=total_frame,
-                duration=duration
+                duration=duration,
+                speaker_id = speaker_id,
+                category_id=category_id
             )
             db.session.add(new_record)
             db.session.commit()
             return new_record
+    
+    def delete_record(self, id):
+        recordFile = self.is_existed(data=id)
+        if recordFile:
+            db.session.delete(recordFile)
+            db.session.commit()
+            return recordFile
+        else:
+            return None
+    
+    def get_all_record(self):
+        records = record.Record.query.all()
+        recordList = []
+        for recordItem in records:
+            recordList.append(recordItem)
+        return recordList
 
     
         
