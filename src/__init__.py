@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///khmerasr.db'
 app.config['SECRET_KEY'] = 'ef4c1adcbabd874ea94f6908'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)

@@ -1,13 +1,25 @@
-from src.models import record, default_values
+from distutils.command.config import config
+from ssl import CHANNEL_BINDING_TYPES
+from src.models import record
+from src.controllers import record_config_controller
+from datetime import datetime
 from src import db
 import os.path
 import wave
 import pyaudio
 
-FRAMES_PER_BUFFER = 3200
+recordConfigController = record_config_controller.RecordConfigController()
+recordConfig = recordConfigController.get_all_record_config()
+
+FRAMES_PER_BUFFER = recordConfig[0].frame_per_buffer
 FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 160000
+CHANNELS = recordConfig[0].channel
+RATE = recordConfig[0].rate
+
+# FRAMES_PER_BUFFER = 3200
+# FORMAT = pyaudio.paInt16
+# CHANNELS = 1
+# RATE = 16000
 
 class RecordController():
 
@@ -19,10 +31,12 @@ class RecordController():
             return None
 
     def record(self, username):
-        AUDIO_DIR = "storage/audio"
-        FILE_NAME = f'{username}_{str(default_values.TODAY_DATE_TIME)}'
+        AUDIO_DIR = "storage/audios"
+        FILE_NAME = f'{username}_{str(datetime.now().strftime("%d%m%Y_%H%M%S"))}.wav'
         FILE_PATH = os.path.join(AUDIO_DIR, FILE_NAME)
+        print(FILE_PATH)
         p = pyaudio.PyAudio()
+        print("Start stream")
         stream = p.open(
             format=FORMAT,
             channels=CHANNELS,
@@ -30,7 +44,9 @@ class RecordController():
             input=True,
             frames_per_buffer=FRAMES_PER_BUFFER
         )
-        seconds = 3
+        # seconds = 3
+        seconds = recordConfig[0].duration
+        print('recording for 3 seconds')
         frames = []
         for i in range(0, int(RATE/FRAMES_PER_BUFFER*seconds)):
             data = stream.read(FRAMES_PER_BUFFER)

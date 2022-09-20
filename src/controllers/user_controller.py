@@ -7,8 +7,10 @@ class UserController(UserMixin):
     def is_existed(self, data):
         req_1 = user.User.query.filter_by(username=data).first()
         req_2 = user.User.query.filter_by(id=data).first()
-        if req_1 or req_2:
+        if req_1:
             return req_1
+        elif req_2:
+            return req_2
         else:
             return None
 
@@ -38,6 +40,7 @@ class UserController(UserMixin):
     
     def delete_user(self, id):
         user_obj = self.is_existed(data=id)
+        print(user_obj.roles)
         if user_obj:
             db.session.delete(user_obj)
             db.session.commit()

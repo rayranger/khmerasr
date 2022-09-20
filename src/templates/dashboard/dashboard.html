@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}
+    Dashboard
+{% endblock %}
+{% block content %}
+    <div class="w-screen h-screen p-5 text-gray-700">
+        <div class="flex flex-row items-start w-full h-full space-x-5">
+            <div class="w-1/5 h-full p-3 border rounded-md">
+                <div class="flex flex-col space-y-3 justify-center">
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-gauge-high"></i>
+                                </div>
+                                <div>
+                                    <p>Overview</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="{{url_for('dashboard_speaker_page')}}">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                                <div>
+                                    <p>Registered Speakers</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="{{url_for('dashboard_user_page')}}">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-user-check"></i>
+                                </div>
+                                <div>
+                                    <p>Registered Users</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-music"></i>
+                                </div>
+                                <div>
+                                    <p>Recorded Audio</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="{{url_for('dashboard_record_configuration_page')}}">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-sliders"></i>
+                                </div>
+                                <div>
+                                    <p>Record Configuration</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-clipboard"></i>
+                                </div>
+                                <div>
+                                    <p>Record Categories</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-list-check"></i>
+                                </div>
+                                <div>
+                                    <p>Assign Tasks</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row items-center space-x-3">
+                                <div>
+                                    <i class="fa-solid fa-download"></i>
+                                </div>
+                                <div>
+                                    <p>Export Data</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                {% block dashboard_content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

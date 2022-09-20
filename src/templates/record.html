@@ -83,8 +83,8 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <a href="">
+                <div onclick="startRecord()">
+                    <div>
                         <div class="flex flex-row items-center space-x-3 justify-center border border-blue-700 rounded-full p-3 bg-blue-700 text-white hover:text-blue-700 hover:bg-white">
                             <div>
                                 <i class="fa-solid fa-circle-play"></i>
@@ -93,9 +93,22 @@
                                 <p>Start Recording or Continue</p>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function startRecord(){
+            $.ajax({
+                url: "/record_audio",
+                type: "POST",
+                dataType: "json",
+                success: function(data){
+                    console.log(data)
+                }
+            })
+        }
+    </script>
 {% endblock %}

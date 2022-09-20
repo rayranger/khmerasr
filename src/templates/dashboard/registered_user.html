@@ -1,0 +1,76 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block dashboard_content %}
+    <div class="flex flex-col text-gray-700">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+              <table class="min-w-full">
+                <thead class="bg-white border-b">
+                  <tr>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      #
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Username
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Email
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Role(s)
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                  <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{user.id}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      {{user.username}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      {{user.email}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      <div class="flex flex-row space-x-3 items-center">
+                        {% for role in user.roles %}
+                            {% if role.name == 'admin' %}
+                                <div class="px-3 py-1 bg-green-600 text-white rounded-md">
+                                    {{role.name}}     
+                                </div>
+                            {% else %}
+                                <div class="px-3 py-1 bg-purple-600 text-white rounded-md">
+                                    {{role.name}}     
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                      </div>
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        <div class="flex flex-row space-x-10 items-center">
+                            <div class="text-yellow-600">
+                                <a href="">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                            </div>
+                            <div class="text-red-600">
+                                <a href="/dashboard/user/delete/{{user.id}}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}

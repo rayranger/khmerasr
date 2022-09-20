@@ -1,0 +1,86 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block dashboard_content %}
+    <div class="flex flex-col text-gray-700">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+              <table class="min-w-full">
+                <thead class="bg-white border-b">
+                  <tr>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      #
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      First
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Last
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Gender
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Age
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Occupation
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Phone number
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for speaker in speakers %}
+                  <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{speaker.id}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{speaker.first_name}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{speaker.last_name}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{speaker.gender}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{speaker.age}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{speaker.occupation}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{speaker.phone_number}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        <div class="flex flex-row space-x-10 items-center">
+                            <div>
+                                <a href="">
+                                    <div class="text-yellow-600">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/dashboard/speaker/delete/{{speaker.id}}">
+                                    <div class="text-red-600">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}

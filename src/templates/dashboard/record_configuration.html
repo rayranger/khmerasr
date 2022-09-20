@@ -1,0 +1,180 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block dashboard_content %}
+    <div">
+        <form method="POST">
+            <div class="flex flex-row space-x-10">
+                <div class="flex flex-col space-y-10">
+                    <div class="flex flex-col space-y-3 py-3 px-10 rounded border">
+                        <div class="flex flex-row space-x-2 items-center">
+                            <div class="flex flex-row space-x-2 items-center">
+                                <div>
+                                    <i class="fa-brands fa-buffer"></i>
+                                </div>
+                                <div>
+                                    <p>Frame per Buffer</p>
+                                </div>
+                            </div>
+                            <div class="py-1 px-3 rounded-md bg-blue-600 text-white">
+                                <p id="fram_per_buffer_value"></p>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                        <div>
+                            <input
+                                type="range"
+                                class="
+                                form-range
+                                appearance-none
+                                w-full
+                                h-6
+                                p-0
+                                bg-transparent
+                                focus:outline-none focus:ring-0 focus:shadow-none
+                                "
+                                id="fram_per_buffer_input",
+                                min="0"
+                                max="10000"
+                                step="100"
+                                name="frame_per_buffer"
+                            />
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-3 justify-center py-3 px-10 rounded border">
+                        <div class="flex flex-row space-x-2 items-center">
+                            <div>
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <p>Duration</p>
+                            </div>
+                        </div>
+                        <div><hr></div>
+                        <div class="mb-3">
+                          <input
+                            type="number"
+                            class="
+                              form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            "
+                            id="duration"
+                            placeholder="Duration"
+                            name="duration"
+                          />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-10">
+                    <div class="flex flex-col space-y-3 py-3 px-10 rounded border">
+                        <div class="flex flex-row space-x-2 items-center">
+                            <div class="flex flex-row space-x-2 items-center">
+                                <div>
+                                    <i class="fa-solid fa-wave-square"></i>
+                                </div>
+                                <div>
+                                    <p>Framerate</p>
+                                </div>
+                            </div>
+                            <div class="py-1 px-3 rounded-md bg-blue-600 text-white">
+                                <p id="framerate_value"></p>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                        <div>
+                            <input
+                                type="range"
+                                class="
+                                form-range
+                                appearance-none
+                                w-full
+                                h-6
+                                p-0
+                                bg-transparent
+                                focus:outline-none focus:ring-0 focus:shadow-none
+                                "
+                                id="framerate_input",
+                                min="0"
+                                max="10000"
+                                step="100"
+                                name="framerate"
+                            />
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-3 py-3 px-10 rounded border">
+                        <div class="flex flex-row space-x-2 items-center">
+                            <div>
+                                <i class="fa-solid fa-headphones-simple"></i>
+                            </div>
+                            <div>
+                                <p>Channel Type</p>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                        <div class="flex justify-center">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="channel" id="mono" value="mono">
+                              <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Mono</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="channel" id="stereo" value="stereo">
+                              <label class="form-check-label inline-block text-gray-800" for="inlineRadio20">Stereo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex w-full justify-end">
+                <div class="max-w-max">
+                    <p>
+                        {{record_config_form.submit(class='cursor-pointer py-2 px-4 bg-blue-500 text-white rounded-md shadow-md')}}
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        fpbi = document.getElementById('fram_per_buffer_input')
+        fr = document.getElementById('framerate_input')
+        duration = document.getElementById('duration')
+        mono = document.getElementById('mono')
+        stereo = document.getElementById('stereo')
+
+        duration.value="{{recordConfig.duration}}"
+        fpbi.value="{{recordConfig.frame_per_buffer}}"
+        fr.value="{{recordConfig.rate}}"
+        channel =  "{{recordConfig.channel}}"
+        if (channel=="1"){
+            mono.checked = true;
+        }else{
+            stereo.checked = true;
+        }
+
+        document.getElementById('fram_per_buffer_value').innerHTML=fpbi.value
+        document.getElementById('framerate_value').innerHTML=fr.value
+        fpbi.addEventListener("input", ()=>{
+            document.getElementById('fram_per_buffer_value').innerHTML=fpbi.value
+        })
+        fr.addEventListener("input", ()=>{
+            document.getElementById('framerate_value').innerHTML=fr.value
+        })
+    </script>
+{% endblock %}

@@ -30,7 +30,7 @@ class AuthController():
             attempted_user = userController.is_existed(sign_in_form.username.data)
             if attempted_user and attempted_user.check_password_correction(attempted_password = sign_in_form.password.data):
                 login_user(attempted_user)
-                flash(f'Seccess! You are logged in as: {attempted_user.username}')
+                flash(f'Seccess! You are logged in as: {attempted_user.username}!', 'success')
                 return True
             else:
                 flash(f'Username or password are not match')
@@ -97,9 +97,9 @@ class AuthController():
             )
             if new_user:
                 login_user(new_user)
-                return redirect(url_for('speaker_register_page'))
+                return False
             else:
                 exist_user = userController.is_existed(data=username)
                 login_user(exist_user)
-            return True
+                return True
     
