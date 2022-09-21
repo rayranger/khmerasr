@@ -1,6 +1,5 @@
 from email.policy import default
 from src import db, bcrypt, login_manager
-from src.models import role
 from src.models.default_values import TODAY_DATE_TIME
 from flask_login import UserMixin
 from sqlalchemy.orm import backref
@@ -22,6 +21,7 @@ class User (db.Model, UserMixin):
     username = db.Column(db.String(), nullable=False, unique=True)
     email = db.Column(db.String(), nullable=False)
     password_hash = db.Column(db.String(), nullable=False, default="password_disable")
+    is_active = db.Column(db.Boolean(), nullable=False, default=True)
     created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
     updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
 
@@ -36,7 +36,6 @@ class User (db.Model, UserMixin):
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
-    # roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True, cascade="all,delete")
     roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True)
     speaker = db.relationship('Speaker', backref=backref("user", cascade="all,delete"), lazy=True, uselist=False)
     tasks = db.relationship('Task', backref='created_by', lazy=True, cascade="all,delete")

@@ -1,7 +1,3 @@
-from crypt import methods
-from dataclasses import dataclass
-import re
-from webbrowser import get
 from src import app
 from flask import render_template, redirect, url_for, jsonify, request
 from src.forms.register_form import RegisterForm
@@ -139,7 +135,8 @@ def dashboard_record_configuration_page():
             duration=request.form.get("duration"),
             frame_per_buffer=request.form.get("frame_per_buffer"),
             channel=channelValue,
-            rate=request.form.get("framerate")
+            sample_rate=request.form.get("framerate"),
+            bit_rate=request.form.get("framerate")
         )
     return render_template('dashboard/record_configuration.html', record_config_form=record_config_form, recordConfig=config)
 

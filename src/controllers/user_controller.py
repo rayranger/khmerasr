@@ -1,4 +1,4 @@
-from src.models import user, speaker, record_config, task, record, default_values
+from src.models import audio, user, speaker, record_config, task, default_values
 from src import db
 from flask_login import UserMixin
 

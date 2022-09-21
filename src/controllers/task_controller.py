@@ -11,16 +11,15 @@ class TaskController():
         else:
             return None
     
-    def create_task(self, name, description, instruction, sample_audio_name, created_by):
+    def create_task(self, name, description, created_user_id, record_config_id):
         if self.is_existed(data=name):
             return None
         else:
             new_task = task.Task(
                 name=name,
                 description=description,
-                instruction=instruction,
-                sample_audio_name=sample_audio_name,
-                created_by=created_by
+                created_user_id=created_user_id,
+                record_config_id = record_config_id
             )
             db.session.add(new_task),
             db.session.commit()
@@ -29,9 +28,10 @@ class TaskController():
     def update_task(self, new_task_obj):
         task_obj = self.is_existed(data=new_task_obj.id)
         if task_obj:
+            task_obj.name = new_task_obj.name
             task_obj.description = new_task_obj.descrption
-            task_obj.instruction = new_task_obj.instruction
-            task_obj.sample_audio_name = new_task_obj.sample_audio_name
+            task_obj.created_user_id = new_task_obj.created_user_id
+            task_obj.record_config_id = new_task_obj.record_config_id
             db.session.commit()
             return new_task_obj
         else:

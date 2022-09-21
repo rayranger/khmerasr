@@ -1,6 +1,6 @@
 from unicodedata import name
 from src import db
-from src.models import record, record_category, role, speaker, user, record_config, task
+from src.models import audio, record_category, role, speaker, user, record_config, task
 
 # print(record_category.RecordCategory.query.all())
 # print(record_config.RecordConfig.query.all())

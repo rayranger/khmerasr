@@ -110,7 +110,7 @@
                                 "
                                 id="framerate_input",
                                 min="0"
-                                max="10000"
+                                max="20000"
                                 step="100"
                                 name="framerate"
                             />
@@ -160,7 +160,7 @@
 
         duration.value="{{recordConfig.duration}}"
         fpbi.value="{{recordConfig.frame_per_buffer}}"
-        fr.value="{{recordConfig.rate}}"
+        fr.value="{{recordConfig.sample_rate}}"
         channel =  "{{recordConfig.channel}}"
         if (channel=="1"){
             mono.checked = true;

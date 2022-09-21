@@ -1,6 +1,6 @@
 from distutils.command.config import config
 from ssl import CHANNEL_BINDING_TYPES
-from src.models import record
+from src.models import audio
 from src.controllers import record_config_controller
 from datetime import datetime
 from src import db
@@ -8,25 +8,25 @@ import os.path
 import wave
 import pyaudio
 
-recordConfigController = record_config_controller.RecordConfigController()
-recordConfig = recordConfigController.get_all_record_config()
+# recordConfigController = record_config_controller.RecordConfigController()
+# recordConfig = recordConfigController.get_all_record_config()
 
-FRAMES_PER_BUFFER = recordConfig[0].frame_per_buffer
-FORMAT = pyaudio.paInt16
-CHANNELS = recordConfig[0].channel
-RATE = recordConfig[0].rate
+# FRAMES_PER_BUFFER = recordConfig[0].frame_per_buffer
+# FORMAT = pyaudio.paInt16
+# CHANNELS = recordConfig[0].channel
+# RATE = recordConfig[0].sample_rate
 
 AUDIO_DIR = "storage/audios"
 
-# FRAMES_PER_BUFFER = 3200
-# FORMAT = pyaudio.paInt16
-# CHANNELS = 1
-# RATE = 16000
+FRAMES_PER_BUFFER = 3200
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 16000
 
 class RecordController():
 
     def is_existed(self, data):
-        req = record.Record.query.filter_by(id=data).first()
+        req = audio.Record.query.filter_by(id=data).first()
         if req:
             return req
         else:
@@ -43,10 +43,11 @@ class RecordController():
             channels=CHANNELS,
             rate=RATE,
             input=True,
-            frames_per_buffer=FRAMES_PER_BUFFER
+            frames_per_buffer=FRAMES_PER_BUFFER,
+            
         )
-        # seconds = 3
-        seconds = recordConfig[0].duration
+        seconds = 3
+        # seconds = recordConfig[0].duration
         print('recording for 3 seconds')
         frames = []
         for i in range(0, int(RATE/FRAMES_PER_BUFFER*seconds)):
@@ -78,7 +79,7 @@ class RecordController():
             sample_frame = filesize
             total_frame = obj.readframes(-1)
             duration = sample_framerate / sample_frame
-            new_record = record.Record(
+            new_record = audio.Record(
                 filename=filename,
                 filetype=filetype,
                 filesize=filesize,
@@ -104,7 +105,7 @@ class RecordController():
             return None
     
     def get_all_record(self):
-        records = record.Record.query.all()
+        records = audio.Record.query.all()
         recordList = []
         for recordItem in records:
             recordList.append(recordItem)
