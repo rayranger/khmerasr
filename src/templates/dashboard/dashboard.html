@@ -72,7 +72,7 @@
                         </a>
                     </div>
                     <hr>
-                    <div>
+                    <!-- <div>
                         <a href="">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
@@ -84,9 +84,9 @@
                             </div>
                         </a>
                     </div>
-                    <hr>
+                    <hr> -->
                     <div>
-                        <a href="">
+                        <a href="{{url_for('dashboard_assign_task')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
                                     <i class="fa-solid fa-list-check"></i>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="w-3/4">
                 {% block dashboard_content %}
 
                 {% endblock %}

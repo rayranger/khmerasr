@@ -1,18 +1,25 @@
+from crypt import methods
+import os
 from src import app
 from flask import render_template, redirect, url_for, jsonify, request
+from werkzeug.utils import secure_filename
+from src.forms.recording_form import RecordingForm
 from src.forms.register_form import RegisterForm
 from src.forms.sing_in_form import SigninForm
 from src.forms.record_config_form import RecordConfigForm
 from src.forms.speaker_register_form import SpeakerRegisterForm
 from src.forms.record_form import StartRecordForm, SubmitRecordForm
-from src.controllers import user_controller, auth_controller, speaker_controller, record_controller, record_config_controller
+from src.forms.assign_task_form import AssignTaskForm
+from src.controllers import audio_controller, user_controller, auth_controller, speaker_controller, record_config_controller, task_controller, recording_controller
 from flask_login import login_required, current_user
 
 userController = user_controller.UserController()
 authController = auth_controller.AuthController()
 speakerController = speaker_controller.SpeakerController()
-recordController = record_controller.RecordController()
+audioController = audio_controller.AudioController()
 recordConfigController = record_config_controller.RecordConfigController()
+taskController = task_controller.TaskController()
+recordingController = recording_controller.RecordingController()
 
 @app.route('/sign-in', methods=['GET', 'POST'])
 def signin_page():
@@ -74,8 +81,8 @@ def record_page():
 
 @app.route('/record_audio', methods=['POST'])
 def record_audio_page():
-    recordName = recordController.record(username=current_user.username)
-    recordController.create_record(
+    recordName = audioController.record(username=current_user.username)
+    audioController.create_record(
             filename=recordName,
             speaker_id=current_user.speaker.id,
             category_id=1
@@ -122,28 +129,82 @@ def dashboard_delete_speaker(id):
 @app.route('/dashboard/record-configuration', methods=['GET', 'POST'])
 def dashboard_record_configuration_page():
     recordConfigs = recordConfigController.get_all_record_config()
-    for recordConfig in recordConfigs:
-        config = recordConfig
     record_config_form = RecordConfigForm()
-    if request.form.get("channel") == 'mono':
-        channelValue = 1
+    if request.form.get('channel') == 'mono':
+        channel = 1
     else:
-        channelValue = 2
+        channel = 2
     if request.form:
-        updatedUser = recordConfigController.update_record_config(
-            id=config.id,
-            duration=request.form.get("duration"),
-            frame_per_buffer=request.form.get("frame_per_buffer"),
-            channel=channelValue,
-            sample_rate=request.form.get("framerate"),
-            bit_rate=request.form.get("framerate")
+        recordConfigController.create_record_config(
+            duration=request.form.get('duration'),
+            number_of_sample=request.form.get('number_of_sample_input'),
+            channel=channel,
+            sample_rate=request.form.get('sample_rate_input'),
+            filetype=request.form.get('filetype')
         )
-    return render_template('dashboard/record_configuration.html', record_config_form=record_config_form, recordConfig=config)
+        return redirect(url_for('dashboard_record_configuration_page'))
+    return render_template('dashboard/record_configuration.html', recordConfigs=recordConfigs, record_config_form=record_config_form)
 
-# dashboard-recorded_audio
+@app.route('/dashboard/record-configuration/delete/<int:id>', methods=['GET','DELETE'])
+def dashboard_delete_record_config(id):
+    recordConfig = recordConfigController.is_existed(data=id)
+    if recordConfig:
+        recordConfigController.delete_record_config(id=id)
+    return redirect(url_for('dashboard_record_configuration_page'))
+
+# dashboard-audio
 
 @app.route('/dashboard/record-audio')
 def dashboard_record_audio():
-    records = recordController.get_all_record()
+    records = audioController.get_all_record()
     print(records)
     return render_template('dashboard/record_audio.html', records = records)
+
+# dashboard-assign_task
+
+@app.route('/dashboard/assign-task', methods=['GET', 'POST'])
+def dashboard_assign_task():
+    assign_task_form = AssignTaskForm()
+    recording_form = RecordingForm()
+    recordConfigs = recordConfigController.get_all_record_config()
+    tasks = taskController.get_all_task()
+    if request.form.get('sample_file'):
+        print('Added new recording')
+    if request.form.get('task_name'):
+        taskController.create_task(
+            name=request.form.get('task_name'),
+            description=request.form.get('task_description'),
+            created_user_id=current_user.id,
+            record_config_id=request.form.get('record_config')
+        )
+        return redirect(url_for('dashboard_assign_task'))
+    if recording_form.validate_on_submit():
+        file = recording_form.sample_file.data
+        file.save(f"src/static/storage/audios/samples/{file.filename}")
+        recordingController.create_task_record(
+            transcript=request.form.get("transcript"),
+            instruction=request.form.get("instruction"),
+            sample_filename=file.filename,
+            task_id=request.form.get('task_id')
+        )
+        # print(recording_form.sample_file.data)
+    return render_template('dashboard/assign_task.html', tasks=tasks, assign_task_form=assign_task_form, recordConfigs=recordConfigs, recording_form=recording_form)
+
+@app.route('/dashboard/assign-task/delete/<int:id>')
+def dashboard_delete_assign_task(id):
+    assign_task = taskController.is_existed(data=id)
+    if assign_task:
+        taskController.delete_taskr(id=id)
+        return redirect(url_for('dashboard_assign_task'))
+    else:
+        return None
+
+@app.route('/dashboard/recording/delete/<int:id>')
+def dashboard_delete_recording(id):
+    recording = recordingController.is_existed(data=id)
+    if recording:
+        recordingController.delete_task_record(id)
+        return redirect(url_for('dashboard_assign_task'))
+    else:
+        return None
+

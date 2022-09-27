@@ -1,180 +1,140 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
-    <div">
-        <form method="POST">
-            <div class="flex flex-row space-x-10">
-                <div class="flex flex-col space-y-10">
-                    <div class="flex flex-col space-y-3 py-3 px-10 rounded border">
-                        <div class="flex flex-row space-x-2 items-center">
-                            <div class="flex flex-row space-x-2 items-center">
-                                <div>
-                                    <i class="fa-brands fa-buffer"></i>
-                                </div>
-                                <div>
-                                    <p>Frame per Buffer</p>
-                                </div>
-                            </div>
-                            <div class="py-1 px-3 rounded-md bg-blue-600 text-white">
-                                <p id="fram_per_buffer_value"></p>
-                            </div>
-                        </div>
-                        <div>
-                            <hr>
-                        </div>
-                        <div>
-                            <input
-                                type="range"
-                                class="
-                                form-range
-                                appearance-none
-                                w-full
-                                h-6
-                                p-0
-                                bg-transparent
-                                focus:outline-none focus:ring-0 focus:shadow-none
-                                "
-                                id="fram_per_buffer_input",
-                                min="0"
-                                max="10000"
-                                step="100"
-                                name="frame_per_buffer"
-                            />
-                        </div>
+<div class="flex flex-col space-y-10 items-end">
+    <!-- Button -->
+    <div class="flex flex-row space-x-3 items-center">
+        <div>
+            <button type="button"
+                class="inline-block px-5 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                data-bs-toggle="modal" data-bs-target="#exampleModalCenteredScrollable">
+                <div class="flex flex-row space-x-2 items-center">
+                    <div>
+                        <i class="fa-solid fa-circle-plus"></i>
                     </div>
-                    <div class="flex flex-col space-y-3 justify-center py-3 px-10 rounded border">
-                        <div class="flex flex-row space-x-2 items-center">
-                            <div>
-                                <i class="fa-solid fa-clock"></i>
-                            </div>
-                            <div>
-                                <p>Duration</p>
-                            </div>
-                        </div>
-                        <div><hr></div>
-                        <div class="mb-3">
-                          <input
-                            type="number"
-                            class="
-                              form-control
-                              block
-                              w-full
-                              px-3
-                              py-1.5
-                              text-base
-                              font-normal
-                              text-gray-700
-                              bg-white bg-clip-padding
-                              border border-solid border-gray-300
-                              rounded
-                              transition
-                              ease-in-out
-                              m-0
-                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            "
-                            id="duration"
-                            placeholder="Duration"
-                            name="duration"
-                          />
-                        </div>
+                    <div>
+                        Add new configuration
                     </div>
                 </div>
-                <div class="flex flex-col space-y-10">
-                    <div class="flex flex-col space-y-3 py-3 px-10 rounded border">
-                        <div class="flex flex-row space-x-2 items-center">
-                            <div class="flex flex-row space-x-2 items-center">
-                                <div>
-                                    <i class="fa-solid fa-wave-square"></i>
-                                </div>
-                                <div>
-                                    <p>Framerate</p>
-                                </div>
-                            </div>
-                            <div class="py-1 px-3 rounded-md bg-blue-600 text-white">
-                                <p id="framerate_value"></p>
-                            </div>
-                        </div>
-                        <div>
-                            <hr>
-                        </div>
-                        <div>
-                            <input
-                                type="range"
-                                class="
-                                form-range
-                                appearance-none
-                                w-full
-                                h-6
-                                p-0
-                                bg-transparent
-                                focus:outline-none focus:ring-0 focus:shadow-none
-                                "
-                                id="framerate_input",
-                                min="0"
-                                max="20000"
-                                step="100"
-                                name="framerate"
-                            />
-                        </div>
+            </button>
+        </div>
+        <div>
+            <a href=""
+                class="inline-block px-5 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                <div class="flex flex-row space-x-2 items-center">
+                    <div>
+                        <i class="fa-solid fa-trash"></i>
                     </div>
-                    <div class="flex flex-col space-y-3 py-3 px-10 rounded border">
-                        <div class="flex flex-row space-x-2 items-center">
-                            <div>
-                                <i class="fa-solid fa-headphones-simple"></i>
-                            </div>
-                            <div>
-                                <p>Channel Type</p>
-                            </div>
-                        </div>
-                        <div>
-                            <hr>
-                        </div>
-                        <div class="flex justify-center">
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="channel" id="mono" value="mono">
-                              <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Mono</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="channel" id="stereo" value="stereo">
-                              <label class="form-check-label inline-block text-gray-800" for="inlineRadio20">Stereo</label>
-                            </div>
-                        </div>
+                    <div>
+                        Delete all configurations
                     </div>
                 </div>
-            </div>
-            <div class="flex w-full justify-end">
-                <div class="max-w-max">
-                    <p>
-                        {{record_config_form.submit(class='cursor-pointer py-2 px-4 bg-blue-500 text-white rounded-md shadow-md')}}
-                    </p>
-                </div>
-            </div>
-        </form>
+            </a>
+        </div>
     </div>
+    <!-- Content -->
+    <div class="flex flex-col self-start w-full">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="bg-white border-b">
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    #
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Channel
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Sample rate
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Number of sample
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Duration
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Filetype
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for recordConfig in recordConfigs %}
+                            <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{recordConfig.id}}</td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {% if recordConfig.channel == 1 %}
+                                    Mono
+                                    {% else %}
+                                    Stereo
+                                    {% endif %}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{recordConfig.sample_rate}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{recordConfig.number_of_sample}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{recordConfig.duration}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{recordConfig.filetype}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    <div class="flex flex-row space-x-10 items-center">
+                                        <div class="py-1 px-2 rounded-md bg-green-600 text-white text-sm">
+                                            <a href="">
+                                                Assign
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="">
+                                                <div class="text-yellow-600">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="/dashboard/record-configuration/delete/{{recordConfig.id}}">
+                                                <div class="text-red-600">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <script>
-        fpbi = document.getElementById('fram_per_buffer_input')
-        fr = document.getElementById('framerate_input')
-        duration = document.getElementById('duration')
-        mono = document.getElementById('mono')
-        stereo = document.getElementById('stereo')
+        sample_rate_input = document.getElementById('sample_rate_input')
+        number_of_sample_input = document.getElementById('number_of_sample_input')
 
-        duration.value="{{recordConfig.duration}}"
-        fpbi.value="{{recordConfig.frame_per_buffer}}"
-        fr.value="{{recordConfig.sample_rate}}"
-        channel =  "{{recordConfig.channel}}"
-        if (channel=="1"){
-            mono.checked = true;
-        }else{
-            stereo.checked = true;
-        }
+        document.getElementById('sample_rate_value').innerHTML = sample_rate_input.value
+        document.getElementById('number_of_sample_value').innerHTML = number_of_sample_input.value
 
-        document.getElementById('fram_per_buffer_value').innerHTML=fpbi.value
-        document.getElementById('framerate_value').innerHTML=fr.value
-        fpbi.addEventListener("input", ()=>{
-            document.getElementById('fram_per_buffer_value').innerHTML=fpbi.value
+
+        sample_rate_input.addEventListener("input", () => {
+            document.getElementById('sample_rate_value').innerHTML = sample_rate_input.value
         })
-        fr.addEventListener("input", ()=>{
-            document.getElementById('framerate_value').innerHTML=fr.value
+
+        number_of_sample_input.addEventListener("input", () => {
+            document.getElementById('number_of_sample_value').innerHTML = number_of_sample_input.value
         })
     </script>
-{% endblock %}
+
+    {% endblock %}

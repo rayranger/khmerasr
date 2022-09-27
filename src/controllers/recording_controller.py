@@ -1,12 +1,11 @@
-from multiprocessing.util import is_exiting
 from src.models import recording
 from src import db
 
-class TaskReocrdController():
+class RecordingController():
     
     def is_existed(self, data):
-        req = recording.TaskRecord.query.filter_by(id=data).first()
-        req_1 = recording.TaskRecord.query.filter_by(sample_filename=data).first()
+        req = recording.Recording.query.filter_by(id=data).first()
+        req_1 = recording.Recording.query.filter_by(sample_filename=data).first()
         if req:
             return req
         elif req_1:
@@ -18,7 +17,7 @@ class TaskReocrdController():
         if self.is_existed(data=sample_filename):
             return None
         else:
-            new_task_record = recording.TaskRecord(
+            new_task_record = recording.Recording(
                 transcript=transcript,
                 instruction=instruction,
                 sample_filename=sample_filename,

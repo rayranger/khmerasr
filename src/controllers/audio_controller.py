@@ -1,29 +1,28 @@
-from distutils.command.config import config
-from ssl import CHANNEL_BINDING_TYPES
 from src.models import audio
-from src.controllers import record_config_controller
 from datetime import datetime
 from src import db
 import os.path
 import wave
 import pyaudio
 
-# recordConfigController = record_config_controller.RecordConfigController()
-# recordConfig = recordConfigController.get_all_record_config()
+class AudioController():
 
-# FRAMES_PER_BUFFER = recordConfig[0].frame_per_buffer
-# FORMAT = pyaudio.paInt16
-# CHANNELS = recordConfig[0].channel
-# RATE = recordConfig[0].sample_rate
+    FRAMES_PER_BUFFER = 0
+    FORMAT = 0
+    CHANNEL = 0
+    RATE = 0
+    FILETYPE = ''
+    DURATION = 0
+    AUDIO_DIR = "storage/audios"
 
-AUDIO_DIR = "storage/audios"
+    def getRecordConfig(self, frame_per_buffer, format, channel, rate, filetype, duration):
+        self.FRAMES_PER_BUFFER = frame_per_buffer
+        self.FORMAT = format
+        self.CHANNEL = channel
+        self.RATE = rate
+        self.FILETYPE = filetype
+        self.DURATION = duration
 
-FRAMES_PER_BUFFER = 3200
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 16000
-
-class RecordController():
 
     def is_existed(self, data):
         req = audio.Record.query.filter_by(id=data).first()
@@ -32,26 +31,24 @@ class RecordController():
         else:
             return None
 
-    def record(self, username):
-        FILE_NAME = f'{username}_{str(datetime.now().strftime("%d%m%Y_%H%M%S"))}.wav'
-        FILE_PATH = os.path.join(AUDIO_DIR, FILE_NAME)
+    def create_record(self, username):
+        FILE_NAME = f'{username}_{str(datetime.now().strftime("%d%m%Y_%H%M%S"))}.{self.FILETYPE}'
+        FILE_PATH = os.path.join(self.AUDIO_DIR, FILE_NAME)
         print(FILE_PATH)
         p = pyaudio.PyAudio()
         print("Start stream")
         stream = p.open(
-            format=FORMAT,
-            channels=CHANNELS,
-            rate=RATE,
+            format=self.FORMAT,
+            channels=self.CHANNELS,
+            rate=self.RATE,
             input=True,
-            frames_per_buffer=FRAMES_PER_BUFFER,
+            frames_per_buffer=self.FRAMES_PER_BUFFER,
             
         )
-        seconds = 3
-        # seconds = recordConfig[0].duration
-        print('recording for 3 seconds')
+        # seconds = 3
         frames = []
-        for i in range(0, int(RATE/FRAMES_PER_BUFFER*seconds)):
-            data = stream.read(FRAMES_PER_BUFFER)
+        for i in range(0, int(self.RATE/self.FRAMES_PER_BUFFER*self.DURATION)):
+            data = stream.read(self.FRAMES_PER_BUFFER)
             frames.append(data)
 
         stream.stop_stream()
@@ -59,15 +56,15 @@ class RecordController():
         p.terminate()
 
         obj = wave.open(FILE_PATH, "wb")
-        obj.setnchannels(CHANNELS)
-        obj.setsampwidth(p.get_sample_size(FORMAT))
-        obj.setframerate(RATE)
+        obj.setnchannels(self.CHANNELS)
+        obj.setsampwidth(p.get_sample_size(self.FORMAT))
+        obj.setframerate(self.RATE)
         obj.writeframes(b"".join(frames))
         obj.close()
         return FILE_NAME
 
-    def create_record(self, filename, category_id, speaker_id):
-        file_path = os.path.join(AUDIO_DIR, filename)
+    def create_audio(self, filename, category_id, speaker_id):
+        file_path = os.path.join(self.AUDIO_DIR, filename)
         if self.is_existed(data=filename):
             return None
         else:
@@ -105,7 +102,7 @@ class RecordController():
             return None
     
     def get_all_record(self):
-        records = audio.Record.query.all()
+        records = audio.Audio.query.all()
         recordList = []
         for recordItem in records:
             recordList.append(recordItem)

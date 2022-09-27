@@ -49,6 +49,6 @@ class TaskController():
     def get_all_task(self):
         tasks = task.Task.query.all()
         taskList = []
-        for task in tasks:
-            taskList.append(task)
+        for taskItem in tasks:
+            taskList.append(taskItem)
         return taskList
