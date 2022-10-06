@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% block title %}
+Task Detail
+{% endblock %}
+{% block content %}
+<div class="min-h-screen text-gray-700">
+    <div class="flex flex-col space-y-16">
+        <div class="flex flex-col space-y-10 w-screen p-5" id="task_detail_model">
+            <div>
+                <a href="{{url_for('task_page')}}">
+                    <div class="flex flex-row space-x-3 p-3 shadow-md max-w-max text-blue-500">
+                        <div>
+                            <i class="fa-solid fa-circle-arrow-left"></i>
+                        </div>
+                        <div>
+                            <p>Back to all tasks</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="px-5">
+                <div class="flex flex-col space-y-2">
+                    <div class="text-4xl flex flex-row items-center justify-between w-full">
+                        <div>
+                            {{selected_task.name}}
+                        </div>
+                        <div class="text-xl">
+                            STATUS: NOT YET COMPLETE
+                        </div>
+                    </div>
+                    <div>
+                        <hr>
+                    </div>
+                    <div class="text-2xl font-bold">
+                        {{recording.transcript}}
+                    </div>
+                </div>
+            </div>
+            <div class="px-5">
+                <div class="flex flex-col space-y-3 p-3 border rounded-md">
+                    <div class="flex flex-row space-x-3">
+                        <div class="flex flex-row space-x-2 text-green-600 font-bold">
+                            <div>
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+                            <div>
+                                <p>Instruction:</p>
+                            </div>
+                        </div>
+                        <div>
+                            {{recording.instruction}}
+                        </div>
+                    </div>
+                    <div class="flex flex-row space-x-3">
+                        <div class="flex flex-row space-x-2 font-bold">
+                            <div>
+                                <i class="fa-solid fa-compact-disc"></i>
+                            </div>
+                            <div>
+                                <p>Sample:</p>
+                            </div>
+                        </div>
+                        <div>
+                            {{recording.sample_filename}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-row items-start justify-betweenn px-10 space-x-10 max-h-max">
+            <div class="w-1/2 p-8 border rounded-md flex flex-col space-y-10 max-h-max">
+                <div class="w-full flex flex-row items-center justify-center text-blue-600">
+                    <div
+                        class="text-6xl w-60 h-60 text-center border-4 rounded-full border-blue-600 flex items-center justify-center">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                </div>
+                <div class="flex flex-row items-center justify-between">
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-orange-700">
+                                <div>
+                                    <i class="fa-solid fa-circle-chevron-left"></i>
+                                </div>
+                                <div>
+                                    Previous
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="flex flex-row space-x-3">
+                        <div onclick="" class=" cursor-pointer">
+                            <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-green-600">
+                                <div>
+                                    <i class="fa-solid fa-record-vinyl"></i>
+                                </div>
+                                <div>
+                                    <p id="start_record_btn">Start record</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div onclick="" class=" cursor-pointer">
+                            <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-red-600">
+                                <div>
+                                    <i class="fa-solid fa-circle-stop"></i>
+                                </div>
+                                <div>
+                                    <p id="stop_record_btn">Stop record</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border p-5 rounded-md w-1/2 flex flex-col space-y-5">
+                <div class="font-bold">
+                    Transcript
+                </div>
+                <div class="w-full self-start">
+                    <hr>
+                </div>
+                <div>
+                    <audio controls id="preview_audio" class="border rounded-md"></audio>
+                </div>
+                <div id="next_btn" class=" cursor-pointer self-end">
+                    <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-blue-500">
+                        <div>
+                            <a>
+                                <div>
+                                    <div>
+                                        <p>Next</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <br>
+        </div>
+    </div>
+</div>
+
+<script>
+    url_param = "{{selected_task.id}}"
+    const SAMPLE_RATE = "{{recording_config.sample_rate}}"
+    const SAMPLE_SIZE = "{{recording_config.number_of_sample}}"
+    const CHANNEL_COUNT = "{{recording_config.channel}}"
+    console.log(`${SAMPLE_RATE}, ${SAMPLE_SIZE}, ${CHANNEL_COUNT}`)
+    start_record_btn = document.getElementById('start_record_btn')
+    stop_record_btn = document.getElementById('stop_record_btn')
+    preview_audio = document.getElementById('preview_audio')
+    next_btn = document.getElementById('next_btn')
+    let audioFile = new Blob()
+
+    let constraintObj = {
+        audio: {
+            sampleRate: SAMPLE_RATE,
+            sampleSize: SAMPLE_SIZE,
+            volume: 1,
+            noiseSuppression: true,
+            channelCount: CHANNEL_COUNT,
+        },
+        video: false,
+    };
+    navigator.mediaDevices.getUserMedia(constraintObj)
+        .then(function (mediaStreamObj) {
+            let mediaRecorder = new MediaRecorder(mediaStreamObj)
+            let chunks = []
+
+            start_record_btn.addEventListener('click', (ev) => {
+                mediaRecorder.start();
+                console.log(mediaRecorder.state);
+            })
+            stop_record_btn.addEventListener('click', (ev) => {
+                mediaRecorder.stop();
+                console.log(mediaRecorder.state);
+            })
+            mediaRecorder.ondataavailable = function (ev) {
+                chunks.push(ev.data);
+            }
+            mediaRecorder.onstop = (ev) => {
+                audioFile = new Blob(chunks);
+                let audioURL = URL.createObjectURL(audioFile);
+                preview_audio.src = audioURL
+                chunks = []
+            }
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
+
+    next_btn.addEventListener('click', () => {
+        const timeElapsed = Date.now()
+        const today = new Date(timeElapsed)
+        let json_filename = ''
+        let data = new FormData()
+        username = "{{current_user.username}}"
+        filetype = "{{recording_config.filetype}}"
+        filename = `${username}_${today.toISOString()}_.${filetype}`
+        data.append('audioFile', audioFile, filename)
+        fetch(`http://127.0.0.1:5000/save-audio`, {
+            method: 'POST',
+            body: data
+        }).then(response => response.json()).then(json => {
+            json_filename = json
+            console.log(json_filename)
+            $.ajax({
+            url:'/recording',
+            data:{id:url_param, filename:json_filename},
+            dataType: 'json',
+            async: true,
+            processData: true,
+            type: 'GET',
+            success: (result)=>{
+                $(task_detail_model).replaceWith(result)
+            }
+        })
+        })
+        audioFile = new Blob()
+    })
+
+</script>
+{% endblock %}

@@ -1,4 +1,52 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
-    {{records}}
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="bg-white border-b">
+              <tr>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  #
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Filename
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for audio in audios %}
+                <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{audio.id}}</td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    {{audio.filename}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    <div class="flex flex-row space-x-3 items-center">
+                        <div>
+                            <a href="/dashboard/record-audio/delete/{{audio.id}}">
+                                <div class="flex flex-row space-x-2 items-center text-red-600">
+                                    <div>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </div>
+                                    <div>
+                                        Delete
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -1,5 +1,8 @@
 from src.models import recording
 from src import db
+from src.controllers import audio_controller
+
+audioController = audio_controller.AudioController()
 
 class RecordingController():
     
@@ -48,8 +51,32 @@ class RecordingController():
             return None
     
     def get_all_task_record(self):
-        task_records = recording.TaskRecord.query.all()
-        task_record_list = []
-        for taskRecord in task_records:
-            task_record_list.append(taskRecord)
-        return task_record_list
+        recordings = recording.Recording.query.all()
+        recordingList = []
+        for recording in recordings:
+            recordingList.append(recording)
+        return recordingList
+    
+    def getRemainingRecording(self, speaker_id, selected_task):
+        total_recordings = selected_task.recordings
+        completed_recordings = audioController.getAllAudioByUser(speakerId=speaker_id)
+        remaining_recordings = []
+
+        total_recordings_id = []
+        completed_recordings_id=[]
+        remaining_recordings_id=[]
+
+        for total_recording in total_recordings:
+            total_recordings_id.append(total_recording.id)
+        
+        for completed_recording in completed_recordings:
+            completed_recordings_id.append(completed_recording.id)
+
+        for total_recording_id in total_recordings_id:
+            if total_recording_id not in completed_recordings_id:
+                remaining_recordings_id.append(total_recording_id)
+
+        for id in remaining_recordings_id:
+            recording = self.is_existed(data=id)
+            remaining_recordings.append(recording)
+        return remaining_recordings

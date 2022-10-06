@@ -97,6 +97,36 @@ recording_1 = recording.Recording(
     sample_filename = "file_1.wav",
     task_id = 1
 )
+recording_11 = recording.Recording(
+    transcript = "This is recording transcript for recording_1.1",
+    instruction = "This is instruction for recording_1.1",
+    sample_filename = "file_11.wav",
+    task_id = 1
+)
+recording_12 = recording.Recording(
+    transcript = "This is recording transcript for recording_1.2",
+    instruction = "This is instruction for recording_1.2",
+    sample_filename = "file_12.wav",
+    task_id = 1
+)
+recording_13 = recording.Recording(
+    transcript = "This is recording transcript for recording_1.3",
+    instruction = "This is instruction for recording_1.3",
+    sample_filename = "file_13.wav",
+    task_id = 1
+)
+recording_14 = recording.Recording(
+    transcript = "This is recording transcript for recording_1.4",
+    instruction = "This is instruction for recording_1.4",
+    sample_filename = "file_14.wav",
+    task_id = 1
+)
+recording_15 = recording.Recording(
+    transcript = "This is recording transcript for recording_1.5",
+    instruction = "This is instruction for recording_1.5",
+    sample_filename = "file_15.wav",
+    task_id = 1
+)
 recording_2 = recording.Recording(
     transcript = "This is recording transcript for recording_2",
     instruction = "This is instruction for recording_2",
@@ -115,5 +145,5 @@ recording_4 = recording.Recording(
     sample_filename = "file_4.wav",
     task_id = 4
 )
-db.session.add_all([recording_1, recording_2, recording_3, recording_4])
+db.session.add_all([recording_1, recording_11, recording_12, recording_13, recording_14, recording_15, recording_2, recording_3, recording_4])
 db.session.commit()

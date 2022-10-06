@@ -1,4 +1,5 @@
-from crypt import methods
+
+from datetime import datetime
 import os
 from src import app
 from flask import render_template, redirect, url_for, jsonify, request
@@ -64,7 +65,7 @@ def google_signin():
 @app.route("/callback")
 def callback():
     if authController.google_callback():
-        return redirect(url_for('record_page'))
+        return redirect(url_for('task_page'))
     else:
         return redirect(url_for('speaker_register_page'))
 
@@ -72,33 +73,74 @@ def callback():
 def home_page():
     return render_template('home.html')
 
-@app.route('/record', methods=['GET', 'POST'])
+@app.route('/task')
 @login_required
+def task_page():
+    tasks = taskController.get_all_task()
+    return render_template('task.html', tasks=tasks)
+
+@app.route('/task-detail/<int:id>')
+@login_required
+def task_detail_page(id):
+    speaker_id = current_user.speaker.id
+    selected_task = taskController.is_existed(data=id)
+    filename = f'{current_user.username}_{str(datetime.now().strftime("%d%m%Y_%H%M%S"))}.ogg'
+    recording_config = recordConfigController.is_existed(data=selected_task.record_config_id)
+    remaining_recordings = recordingController.getRemainingRecording(
+        speaker_id=speaker_id,
+        selected_task=selected_task
+    )
+    audioController.getRecordConfig(
+        frame_per_buffer=recording_config.number_of_sample,
+        channel=recording_config.channel,
+        rate=recording_config.sample_rate,
+        filetype=recording_config.filetype,
+        duration=recording_config.duration
+    )
+    return render_template('task_detail.html', selected_task=selected_task, recording=remaining_recordings[0], recording_config=recording_config, filename=filename)
+
+@app.route('/save-audio', methods=['POST'])
+def save_audio():
+    files = request.files
+    file_to_save = files.get('audioFile')
+    file_to_save.save(f"src/static/storage/audios/recordings/{file_to_save.filename}")
+    return jsonify(file_to_save.filename)
+
+
+@app.route('/recording', methods=['GET'])
 def record_page():
-    start_record_form = StartRecordForm()
-    save_record_form = SubmitRecordForm()
-    return render_template('record.html', start_record_form=start_record_form, save_record_form=save_record_form)
+    id = request.args.get('id')
+    filename = request.args.get('filename')
+    speaker_id = current_user.speaker.id
+    selected_task = taskController.is_existed(data=id)
+    remaining_recordings = recordingController.getRemainingRecording(
+        speaker_id=speaker_id,
+        selected_task=selected_task
+    )
+    new_audio = audioController.create_audio(
+        filename=filename,
+        recording_id=remaining_recordings[0].id,
+        speaker_id=speaker_id
+    )
+    return jsonify(render_template('task_detail_model.html', recording=remaining_recordings[1], selected_task=selected_task))
 
-@app.route('/record_audio', methods=['POST'])
-def record_audio_page():
-    recordName = audioController.record(username=current_user.username)
-    audioController.create_record(
-            filename=recordName,
-            speaker_id=current_user.speaker.id,
-            category_id=1
-        )
 
-    return jsonify(recordName)
+
+
+
+
+# dashboard part
 
 @app.route('/dashboard')
 @login_required
 def dashboard_page():
-    roles = current_user.roles
-    flag = 0
-    for role in roles:
-        if role.name == 'admin':
-            return render_template('dashboard/dashboard.html', current_user=current_user)
-    return ('Permission Denied')
+    # roles = current_user.roles
+    # flag = 0
+    # for role in roles:
+    #     if role.name == 'admin':
+    #         return render_template('dashboard/dashboard.html', current_user=current_user)
+    # return ('Permission Denied')
+    return render_template('dashboard/dashboard.html', current_user=current_user)
 
 # dashboard-user
 
@@ -156,16 +198,21 @@ def dashboard_delete_record_config(id):
 
 @app.route('/dashboard/record-audio')
 def dashboard_record_audio():
-    records = audioController.get_all_record()
-    print(records)
-    return render_template('dashboard/record_audio.html', records = records)
+    audios = audioController.get_all_audio()
+    print(audios)
+    return render_template('dashboard/record_audio.html', audios = audios)
+
+@app.route('/dashboard/record-audio/delete/<int:id>')
+def dashboard_delete_record_audio(id):
+    if audioController.is_existed(data=id):   
+        audioController.delete_audio(id=id)
+    return redirect(url_for('dashboard_record_audio'))
 
 # dashboard-assign_task
 
 @app.route('/dashboard/assign-task', methods=['GET', 'POST'])
 def dashboard_assign_task():
     assign_task_form = AssignTaskForm()
-    recording_form = RecordingForm()
     recordConfigs = recordConfigController.get_all_record_config()
     tasks = taskController.get_all_task()
     if request.form.get('sample_file'):
@@ -178,6 +225,12 @@ def dashboard_assign_task():
             record_config_id=request.form.get('record_config')
         )
         return redirect(url_for('dashboard_assign_task'))
+    return render_template('dashboard/assign_task.html', tasks=tasks, assign_task_form=assign_task_form, recordConfigs=recordConfigs)
+
+@app.route('/dashboard/assign-task/detail/<int:id>', methods=['GET', 'POST'])
+def dashboard_assign_task_detail(id):
+    recording_form = RecordingForm()
+    seleted_task = taskController.is_existed(data=id)
     if recording_form.validate_on_submit():
         file = recording_form.sample_file.data
         file.save(f"src/static/storage/audios/samples/{file.filename}")
@@ -185,10 +238,9 @@ def dashboard_assign_task():
             transcript=request.form.get("transcript"),
             instruction=request.form.get("instruction"),
             sample_filename=file.filename,
-            task_id=request.form.get('task_id')
+            task_id=seleted_task.id
         )
-        # print(recording_form.sample_file.data)
-    return render_template('dashboard/assign_task.html', tasks=tasks, assign_task_form=assign_task_form, recordConfigs=recordConfigs, recording_form=recording_form)
+    return render_template('dashboard/assign_task_detail.html', seleted_task=seleted_task, recording_form=recording_form)
 
 @app.route('/dashboard/assign-task/delete/<int:id>')
 def dashboard_delete_assign_task(id):
@@ -199,12 +251,13 @@ def dashboard_delete_assign_task(id):
     else:
         return None
 
-@app.route('/dashboard/recording/delete/<int:id>')
-def dashboard_delete_recording(id):
+@app.route('/dashboard/recording/delete/<int:id>/<int:task_id>')
+def dashboard_delete_recording(id, task_id):
     recording = recordingController.is_existed(data=id)
     if recording:
         recordingController.delete_task_record(id)
-        return redirect(url_for('dashboard_assign_task'))
+        return redirect(url_for('dashboard_assign_task_detail', id=task_id))
     else:
         return None
+
 

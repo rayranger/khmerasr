@@ -1,13 +1,181 @@
-{% extends 'base.html' %}
-{% block title %}
-    Khmer ASR System
-{% endblock %}
-{% block content %}
-    <div class="w-screen h-screen p-5">
-        <div class="w-full h-2/3 bg-cover rounded-md opacity-100 px-14 py-14" style="background-image: url('https://images.squarespace-cdn.com/content/v1/59b5da1a49fc2b50d0978fa1/1621808453071-7U68BE5XEIAFAYKLKISJ/agile-digital-transformation-16x9.png') ;">
-            <div class="text-white p-3 rounded-md bg-pink-600 w-max">
-                <p>Get Started Now</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/dist/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1231/1231089.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+            extend: {
+                fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                },
+            }
+            }
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>
+        Khmer Voice ASR
+    </title>
+</head>
+
+<body>
+
+    <style>
+        .hero-img {
+            background-image: url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+        }
+    </style>
+
+    <div class=" absolute top-0 w-screen">
+        <div class="flex flex-col space-y-2 w-full px-10 py-5 items-center justify-center">
+            <div class="flex flex-row space-x-4 text-white self-start">
+                <div>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    Cambodia Academy of Digital Technology
+                </div>
+            </div>
+            <div class="w-1/5 self-start">
+                <hr>
+            </div>
+            <div class="w-full flex flex-row items-center justify-between text-white text-lg font-bold">
+                <div class="flex flex-row space-x-10 items-center justify-start uppercase">
+                    <div>
+                        <a href="">
+                            home
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{{url_for('task_page')}}">
+                            task
+                        </a>
+                    </div>
+                    <div>
+                        <a href="">
+                            about
+                        </a>
+                    </div>
+                    <div>
+                        <a href="">
+                            contact
+                        </a>
+                    </div>
+                    <div>
+                        <a href="">
+                            <div class="flex flex-row space-x-3 items-center p-2 border border-white rounded-md hover:text-black hover:bg-white ease-in duration-150">
+                                <div>
+                                    <i class="fa-solid fa-download"></i>
+                                </div>
+                                <div>
+                                    <p>Download app</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <div>
+                        <div class="flex flex-row space-x-5 items-center">
+                            <div class="flex flex-row space-x-2 items-center border rounded-md px-3 py-1 hover:bg-white hover:text-gray-700">
+                              <div>
+                                <i class="fa-solid fa-circle-user"></i>
+                              </div>
+                              <div>
+                                <a href="">{{current_user.username}}</a>
+                              </div>
+                            </div>
+                            <div class="flex-row space-x-2 items-center flex">
+                              <div>
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                              </div>
+                              <div>
+                                <a href="{{url_for('signout_page')}}">Sign out</a>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="flex flex-row space-x-5 items-center">
+                        <div class="p-3 border border-black hover:border-white rounded-md ease-out duration-150">
+                            <a href="">
+                                <div class="flex flex-row space-x-3 items-center">
+                                    <div>
+                                        <i class="fa-solid fa-right-to-bracket"></i>
+                                    </div>
+                                    <div>
+                                        Sign in
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            |
+                        </div>
+                        <div class="p-3 border border-black hover:border-white rounded-md ease-out duration-150">
+                            <a href="">
+                                <div class="flex flex-row space-x-3 items-center">
+                                    <div>
+                                        <i class="fa-solid fa-user-pen"></i>
+                                    </div>
+                                    <div>
+                                        Register
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
-{% endblock %}
+
+    <div class="min-h-screen">
+        <div class="w-screen h-screen">
+            <div class="w-full h-full bg-cover hero-img">
+                <div class="w-full h-full  bg-gradient-to-r from-black to-transparent">
+                    <div class="flex flex-col items-center justify-center space-y-28 w-full h-full text-white">
+                        <div class="text-5xl font-bold flex flex-col space-y-10 items-start justify-center text-white">
+                            <div class="text-2xl p-3 bg-white text-black rounded-md">
+                                Improve Khmer voice analysis
+                            </div>
+                            <div class="uppercase">
+                                recording your voice to be a part
+                            </div>
+                            <div class="w-1/2 self-end">
+                                <hr>
+                            </div>
+                            <div class="self-end">
+                                <a href="{{url_for('task_page')}}">
+                                    <div
+                                        class="flex flex-row space-x-3 items-center py-3 px-6 border rounded-md shadow-white shadow-md text-3xl hover:underline hover:border-transparent hover:shadow-none">
+                                        <div>
+                                            Start recording now
+                                        </div>
+                                        <div>
+                                            <i class="fa-regular fa-circle-right"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
