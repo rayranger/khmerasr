@@ -160,14 +160,16 @@ Task Detail
 
     let constraintObj = {
         audio: {
-            sampleRate: SAMPLE_RATE,
             sampleSize: SAMPLE_SIZE,
             volume: 1,
             noiseSuppression: true,
             channelCount: CHANNEL_COUNT,
+            sampleRate: 46000,
         },
         video: false,
     };
+
+    console.log(constraintObj)
     navigator.mediaDevices.getUserMedia(constraintObj)
         .then(function (mediaStreamObj) {
             let mediaRecorder = new MediaRecorder(mediaStreamObj)
@@ -185,7 +187,7 @@ Task Detail
                 chunks.push(ev.data);
             }
             mediaRecorder.onstop = (ev) => {
-                audioFile = new Blob(chunks);
+                audioFile = new Blob(chunks,{"type":"audio/{{recording_config.filetype}};"});
                 let audioURL = URL.createObjectURL(audioFile);
                 preview_audio.src = audioURL
                 chunks = []

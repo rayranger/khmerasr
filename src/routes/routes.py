@@ -134,13 +134,13 @@ def record_page():
 @app.route('/dashboard')
 @login_required
 def dashboard_page():
-    # roles = current_user.roles
-    # flag = 0
-    # for role in roles:
-    #     if role.name == 'admin':
-    #         return render_template('dashboard/dashboard.html', current_user=current_user)
-    # return ('Permission Denied')
     return render_template('dashboard/dashboard.html', current_user=current_user)
+
+#dashboard-overview
+@app.route('/dashboard/overview')
+@login_required
+def dashboard_overvie_page():
+    return render_template('dashboard/overview.html')
 
 # dashboard-user
 
