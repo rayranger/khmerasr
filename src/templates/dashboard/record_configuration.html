@@ -6,7 +6,7 @@
         <div>
             <button type="button"
                 class="inline-block px-5 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                data-bs-toggle="modal" data-bs-target="#exampleModalCenteredScrollable">
+                data-bs-toggle="modal" data-bs-target="#addNewConfig">
                 <div class="flex flex-row space-x-2 items-center">
                     <div>
                         <i class="fa-solid fa-circle-plus"></i>
@@ -119,22 +119,215 @@
     </div>
 </div>
 
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+    id="addNewConfig" tabindex="-1" aria-labelledby="addNewConfig" aria-modal="true" role="dialog">
+    <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable relative w-auto pointer-events-none min-w-max">
+        <div
+            class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+            <div
+                class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalCenteredScrollableLabel">
+                    <div class="flex flex-row space-x-3 items-center">
+                        <div>
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <div>
+                            New config
+                        </div>
+                    </div>
+                </h5>
+                <button type="button"
+                    class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body relative p-4">
+                <div>
+                    <form method="POST">
+                        {{record_config_form.hidden_tag()}}
+                        <div class="flex flex-col space-y-5 items-center justify-center w-full">
+                            <div class="flex flex-row space-x-5 items-center justify-center max-w-max">
+                                <!-- Input 1 -->
+                                <div class="flex flex-col space-y-3 items-start min-w-max p-3 rounded-md border">
+                                    <div class="flex flex-row space-x-3 items-center min-w-max">
+                                        <div>
+                                            <i class="fa-solid fa-wave-square"></i>
+                                        </div>
+                                        <div>
+                                            <p>Sample rate</p>
+                                        </div>
+                                        <div class="px-3 bg-blue-500 text-white rounded-md">
+                                            <p id="sample_rate_value">10</p>
+                                        </div>
+                                    </div>
+                                    <div class="w-full border">
+                                        <hr>
+                                    </div>
+                                    <div>
+                                        <div class="relative pt-1">
+                                            <input type="range" class="
+                                        form-range
+                                        appearance-none
+                                        w-full
+                                        h-6
+                                        p-0
+                                        bg-transparent
+                                        focus:outline-none focus:ring-0 focus:shadow-none
+                                      " id="sample_rate_input" step="100" min="32000" max="48000" name="sample_rate_input"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Input 2 -->
+                                <div class="flex flex-col space-y-3 items-start min-w-max p-3 rounded-md border">
+                                    <div class="flex flex-row space-x-3 items-center min-w-max">
+                                        <div>
+                                            <i class="fa-brands fa-buffer"></i>
+                                        </div>
+                                        <div>
+                                            <p>Number of sample</p>
+                                        </div>
+                                        <div class="px-3 bg-blue-500 text-white rounded-md">
+                                            <p id="number_of_sample_value">10</p>
+                                        </div>
+                                    </div>
+                                    <div class="w-full border">
+                                        <hr>
+                                    </div>
+                                    <div>
+                                        <div class="relative pt-1">
+                                            <input type="range" class="
+                                        form-range
+                                        appearance-none
+                                        w-full
+                                        h-6
+                                        p-0
+                                        bg-transparent
+                                        focus:outline-none focus:ring-0 focus:shadow-none
+                                      " id="number_of_sample_input" step="100" min="1000" max="16000" name="number_of_sample_input"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-row space-x-5 items-center justify-center max-w-max">
+                                <!-- Input 3 -->
+                                <div class="flex flex-col space-y-3 items-start min-w-max p-3 border rounded-md">
+                                    <div class="flex flex-row space-x-3 items-center">
+                                        <div>
+                                            <i class="fa-solid fa-headphones"></i>
+                                        </div>
+                                        <div>
+                                            Channel
+                                        </div>
+                                    </div>
+                                    <div class="w-full border">
+                                        <hr>
+                                    </div>
+                                    <div class="flex justify-center space-x-3">
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                                type="radio" name="channel" id="channel" value="1" checked>
+                                            <label class="form-check-label inline-block text-gray-800"
+                                                for="inlineRadio10">Mono</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                                type="radio" name="channel" id="channel" value="2">
+                                            <label class="form-check-label inline-block text-gray-800"
+                                                for="inlineRadio20">Stereo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col space-y-3 items-start min-w-max p-3 border rounded-md">
+                                    <div class="flex flex-row space-x-3 items-center">
+                                        <div>
+                                            <i class="fa-regular fa-clock"></i>
+                                        </div>
+                                        <div>
+                                            Max Duration
+                                        </div>
+                                    </div>
+                                    <div class="w-full border">
+                                        <hr>
+                                    </div>
+                                    <div>
+                                        <input type="number" name="duration" id="duration"
+                                            class="outline-none rounded-md py-2 px-4 border" value="5">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col space-y-3 w-full items-center p-3 border rounded-md">
+                                <div class="flex flex-row space-x-3 items-center self-start">
+                                    <div>
+                                        <i class="fa-solid fa-file-audio"></i>
+                                    </div>
+                                    <div>
+                                        File type
+                                    </div>
+                                </div>
+                                <div class="w-full border">
+                                    <hr>
+                                </div>
+                                <div class="flex justify-around w-full">
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                            type="radio" name="filetype" id="filetype" value="wav" checked>
+                                        <label class="form-check-label inline-block text-gray-800"
+                                            for="inlineRadio10">WAV</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                            type="radio" name="filetype" id="filetype" value="ogg">
+                                        <label class="form-check-label inline-block text-gray-800"
+                                            for="inlineRadio20">OGG</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full self-end">
+                                <button type="button"
+                                    class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                                    {{record_config_form.submit(class='cursor-pointer')}}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div
+                class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                <button type="button"
+                    class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                    data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script>
-        sample_rate_input = document.getElementById('sample_rate_input')
-        number_of_sample_input = document.getElementById('number_of_sample_input')
 
+<script>
+    sample_rate_input = document.getElementById('sample_rate_input')
+    number_of_sample_input = document.getElementById('number_of_sample_input')
+
+    sample_rate_input.value = 44000
+    number_of_sample_input.value = 8000
+
+    document.getElementById('sample_rate_value').innerHTML = sample_rate_input.value
+    document.getElementById('number_of_sample_value').innerHTML = number_of_sample_input.value
+
+
+    sample_rate_input.addEventListener("input", () => {
         document.getElementById('sample_rate_value').innerHTML = sample_rate_input.value
+        console.log(sample_rate_input.value)
+    })
+
+    number_of_sample_input.addEventListener("input", () => {
         document.getElementById('number_of_sample_value').innerHTML = number_of_sample_input.value
+    })
+</script>
 
-
-        sample_rate_input.addEventListener("input", () => {
-            document.getElementById('sample_rate_value').innerHTML = sample_rate_input.value
-        })
-
-        number_of_sample_input.addEventListener("input", () => {
-            document.getElementById('number_of_sample_value').innerHTML = number_of_sample_input.value
-        })
-    </script>
-
-    {% endblock %}
+{% endblock %}

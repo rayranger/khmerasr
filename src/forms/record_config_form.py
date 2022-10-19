@@ -3,4 +3,4 @@ from wtforms import SubmitField
 from wtforms.validators import DataRequired
 
 class RecordConfigForm(FlaskForm):
-    submit = SubmitField(label="Save Change")
+    submit = SubmitField(label="Save new config")

@@ -3,159 +3,187 @@
 Task Detail
 {% endblock %}
 {% block content %}
-<div class="min-h-screen text-gray-700">
-    <div class="flex flex-col space-y-16">
-        <div class="flex flex-col space-y-10 w-screen p-5" id="task_detail_model">
-            <div>
-                <a href="{{url_for('task_page')}}">
-                    <div class="flex flex-row space-x-3 p-3 shadow-md max-w-max text-blue-500">
-                        <div>
-                            <i class="fa-solid fa-circle-arrow-left"></i>
-                        </div>
-                        <div>
-                            <p>Back to all tasks</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="px-5">
-                <div class="flex flex-col space-y-2">
-                    <div class="text-4xl flex flex-row items-center justify-between w-full">
-                        <div>
-                            {{selected_task.name}}
-                        </div>
-                        <div class="text-xl">
-                            STATUS: NOT YET COMPLETE
-                        </div>
+<div class="h-screen px-10 py-5 text-gray-700">
+    <div class="flex flex-col space-y-10 item-start">
+        <!-- Back btn here -->
+        <div>
+            <a href="{{url_for('task_page')}}">
+                <div class="flex flex-row space-x-3 px-5 py-3 text-blue-500 shadow-md max-w-max">
+                    <div>
+                        <i class="fa-solid fa-circle-left"></i>
                     </div>
                     <div>
+                        Back to all tasks
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="px-10 w-full" id="task_detail_model">
+            <div class="flex flex-col space-y-10">
+                <!-- Title here -->
+                <div class="flex flex-col space-y-3">
+                    <div class="text-xl">
+                        <p>{{selected_task.name}}</p>
+                    </div>
+                    <div>
+                        <div class="flex flex-row items-center justify-between">
+                            <div class="text-3xl font-bold">
+                                <p>Recording {{recording.id}}</p>
+                            </div>
+                            <div class="flex flex-row space-x-3 items-center px-3 py-2 border border-blue-500 rounded-md">
+                                <div>
+                                    <p>Completed</p>
+                                </div>
+                                <div class="px-3 text-white bg-blue-500 rounded-md">
+                                    <p>1 / 10</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/4 border">
                         <hr>
                     </div>
-                    <div class="text-2xl font-bold">
-                        {{recording.transcript}}
-                    </div>
                 </div>
-            </div>
-            <div class="px-5">
-                <div class="flex flex-col space-y-3 p-3 border rounded-md">
-                    <div class="flex flex-row space-x-3">
-                        <div class="flex flex-row space-x-2 text-green-600 font-bold">
+                <!-- Info here -->
+                <div class="flex flex-col">
+                    <div class="bg-gray-700 text-white py-2 px-6 rounded-tl-md rounded-tr-md max-w-max">
+                        <div class="flex flex-row space-x-3 uppercase">
                             <div>
-                                <i class="fa-solid fa-book"></i>
+                                <i class="fa-solid fa-circle-info"></i>
                             </div>
                             <div>
-                                <p>Instruction:</p>
-                            </div>
-                        </div>
-                        <div>
-                            {{recording.instruction}}
-                        </div>
-                    </div>
-                    <div class="flex flex-row space-x-3">
-                        <div class="flex flex-row space-x-2 font-bold">
-                            <div>
-                                <i class="fa-solid fa-compact-disc"></i>
-                            </div>
-                            <div>
-                                <p>Sample:</p>
-                            </div>
-                        </div>
-                        <div>
-                            {{recording.sample_filename}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="flex flex-row items-start justify-betweenn px-10 space-x-10 max-h-max">
-            <div class="w-1/2 p-8 border rounded-md flex flex-col space-y-10 max-h-max">
-                <div class="w-full flex flex-row items-center justify-center text-blue-600">
-                    <div
-                        class="text-6xl w-60 h-60 text-center border-4 rounded-full border-blue-600 flex items-center justify-center">
-                        <i class="fa-solid fa-microphone-lines"></i>
-                    </div>
-                </div>
-                <div class="flex flex-row items-center justify-between">
-                    <div>
-                        <a href="">
-                            <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-orange-700">
-                                <div>
-                                    <i class="fa-solid fa-circle-chevron-left"></i>
-                                </div>
-                                <div>
-                                    Previous
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="flex flex-row space-x-3">
-                        <div onclick="" class=" cursor-pointer">
-                            <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-green-600">
-                                <div>
-                                    <i class="fa-solid fa-record-vinyl"></i>
-                                </div>
-                                <div>
-                                    <p id="start_record_btn">Start record</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div onclick="" class=" cursor-pointer">
-                            <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-red-600">
-                                <div>
-                                    <i class="fa-solid fa-circle-stop"></i>
-                                </div>
-                                <div>
-                                    <p id="stop_record_btn">Stop record</p>
-                                </div>
+                                information
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="border p-5 rounded-md w-1/2 flex flex-col space-y-5">
-                <div class="font-bold">
-                    Transcript
-                </div>
-                <div class="w-full self-start">
-                    <hr>
-                </div>
-                <div>
-                    <audio controls id="preview_audio" class="border rounded-md"></audio>
-                </div>
-                <div id="next_btn" class=" cursor-pointer self-end">
-                    <div class="flex flex-row space-x-3 py-3 px-6 border rounded-md text-blue-500">
-                        <div>
-                            <a>
-                                <div>
-                                    <div>
-                                        <p>Next</p>
+                    <div class="bg-gray-300 rounded-md rounded-tl-none p-3">
+                        <div class="flex flex-row item-center justify-center space-x-5 border border-gray-700 border-dashed rounded-md p-3">
+                            <div class="w-1/2">
+                                <div class="flex flex-col space-y-3 w-full items-start">
+                                    <div class="font-bold uppercase">
+                                        instruction
+                                    </div>
+                                    <div class="self-center px-10">
+                                        {{recording.instruction}}
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                        <div>
-                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            </div>
+                            <div class="w-1/2 border-l pl-5 border-gray-700 border-dotted">
+                                <div class="flex flex-col space-y-3 w-full items-start">
+                                    <div class="font-bold uppercase">
+                                        <div class="flex flex-row space-x-3 items-center">
+                                            <div>
+                                                transcript
+                                            </div>
+                                            <div>
+                                                <i class="fa-solid fa-music"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="self-center px-10">
+                                        {{recording.transcript}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div>
-            <br>
-        </div>
+        <!-- action here -->
+        <div class="px-10">
+            <div class="flex flex-row space-x-5 items-center justify-center">
+                <div class="bg-orange-500 px-4 py-1 text-white rounded-md">
+                    <div class="flex flex-row space-x-3 item-center">
+                        <div>
+                            <i class="fa-solid fa-angles-left"></i>
+                        </div>
+                        <div>
+                            Previous
+                        </div>
+                    </div>
+                </div>
+                <div id="mic_btn" class=" cursor-pointer border border-red-500 px-4 py-1 text-red-500 rounded-md">
+                    <div class="flex flex-row space-x-3 item-center">
+                        <div id="mic_btn_icon">
+                            <i class="fa-solid fa-microphone"></i>
+                        </div>
+                        <div id="mic_btn_text">
+                            Record
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <audio src="" controls class="rounded-md" id="preview_audio"></audio>
+                </div>
+                <div class="border border-green-600 text-green-600 px-4 py-1 rounded-md">
+                    <div class="flex flex-row space-x-3 item-center">
+                        <div>
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </div>
+                        <div>
+                            Save
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-green-600 px-4 py-1 text-white rounded-md cursor-pointer" id="next_btn">
+                    <div class="flex flex-row space-x-3 item-center">
+                        <div>
+                            Save & Next
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-angles-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
-</div>
 
+</div>
 <script>
     url_param = "{{selected_task.id}}"
     const SAMPLE_RATE = "{{recording_config.sample_rate}}"
     const SAMPLE_SIZE = "{{recording_config.number_of_sample}}"
     const CHANNEL_COUNT = "{{recording_config.channel}}"
     console.log(`${SAMPLE_RATE}, ${SAMPLE_SIZE}, ${CHANNEL_COUNT}`)
-    start_record_btn = document.getElementById('start_record_btn')
-    stop_record_btn = document.getElementById('stop_record_btn')
     preview_audio = document.getElementById('preview_audio')
     next_btn = document.getElementById('next_btn')
+    mic_btn_icon = document.getElementById('mic_btn_icon')
+    mic_btn_text = document.getElementById('mic_btn_text')
+
+    mic_btn = document.getElementById('mic_btn')
+
+    flag = 0
+
+    mic_btn.addEventListener('click', ()=>{
+        console.log(flag)
+        if (flag==0){
+            mic_btn.classList.remove('text-red-500')
+
+            mic_btn.classList.add('bg-red-500')
+            mic_btn.classList.add('text-white')
+
+            mic_btn_icon.innerHTML = '<i class="fa-solid fa-stop"></i>'
+            mic_btn_text.innerHTML = 'Stop'
+
+            flag = 1
+        } else {
+            mic_btn.classList.remove('bg-red-500')
+            mic_btn.classList.remove('text-white')
+
+            mic_btn.classList.add('bg-white')
+            mic_btn.classList.add('text-red-500')
+
+            mic_btn_icon.innerHTML = '<i class="fa-solid fa-microphone"></i>'
+            mic_btn_text.innerHTML = 'Record'
+
+            flag = 0
+        }
+        console.log(flag)
+
+    })
+
     let audioFile = new Blob()
 
     let constraintObj = {
@@ -175,13 +203,14 @@ Task Detail
             let mediaRecorder = new MediaRecorder(mediaStreamObj)
             let chunks = []
 
-            start_record_btn.addEventListener('click', (ev) => {
-                mediaRecorder.start();
-                console.log(mediaRecorder.state);
-            })
-            stop_record_btn.addEventListener('click', (ev) => {
-                mediaRecorder.stop();
-                console.log(mediaRecorder.state);
+            mic_btn.addEventListener('click', (ev) => {
+                if (flag == 1){
+                    mediaRecorder.start();
+                    console.log(mediaRecorder.state);
+                }else{
+                    mediaRecorder.stop();
+                    console.log(mediaRecorder.state);
+                }
             })
             mediaRecorder.ondataavailable = function (ev) {
                 chunks.push(ev.data);
