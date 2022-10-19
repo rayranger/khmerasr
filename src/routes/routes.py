@@ -172,7 +172,7 @@ def dashboard_delete_speaker(id):
 def dashboard_record_configuration_page():
     recordConfigs = recordConfigController.get_all_record_config()
     record_config_form = RecordConfigForm()
-    if request.form.get('channel') == 'mono':
+    if request.form.get('channel') == '1':
         channel = 1
     else:
         channel = 2
@@ -183,7 +183,7 @@ def dashboard_record_configuration_page():
             channel=channel,
             sample_rate=request.form.get('sample_rate_input'),
             filetype=request.form.get('filetype')
-        )
+        ) 
         return redirect(url_for('dashboard_record_configuration_page'))
     return render_template('dashboard/record_configuration.html', recordConfigs=recordConfigs, record_config_form=record_config_form)
 
