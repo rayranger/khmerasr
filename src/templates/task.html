@@ -40,14 +40,21 @@ Task
                                 10
                             </div>
                         </div>
+                        {% if total_remaining_recordings[task.id-1] > 0 %}
                         <div class="flex flex-row space-x-3 items-center text-w">
                             <div>
-                                Completed
+                                Remaining
                             </div>
-                            <div class="px-2 bg-green-600 rounded-sm text-white">
-                                0%
+                            <div class="px-2 bg-yellow-600 rounded-sm text-white">
+                                {{total_remaining_recordings[task.id-1]}} / {{total_recordings[task.id-1]}}
                             </div>
                         </div>
+                        {% else %}
+                        <div class="px-2 bg-green-600 rounded-sm text-white">
+                            Completed
+                        </div>
+                        {% endif %}
+            
                       </div>        
                     </button>
                   </h2>

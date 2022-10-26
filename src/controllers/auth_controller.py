@@ -26,15 +26,15 @@ flow = Flow.from_client_secrets_file(
 class AuthController():
 
     def sign_in(self, sign_in_form):
-        if sign_in_form.validate_on_submit:
+        if sign_in_form.validate_on_submit():
             attempted_user = userController.is_existed(sign_in_form.username.data)
             if attempted_user and attempted_user.check_password_correction(attempted_password = sign_in_form.password.data):
                 login_user(attempted_user)
                 flash(f'Seccess! You are logged in as: {attempted_user.username}!', 'success')
-                return True
+                return attempted_user
             else:
                 flash(f'Username or password are not match')
-                return False
+                return None
     
     def register(self, register_form):
         roles = roleController.get_all_roles()
@@ -63,7 +63,7 @@ class AuthController():
     
     def sign_out(self):
         logout_user()
-        flash('You have been logged out!')
+        flash('You have been logged out!', 'success')
         return True
 
     def google_sign_in(self):

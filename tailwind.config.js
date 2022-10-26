@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./khmerasr/**/*.{html,js}"],
+  content: [
+    "./src/templates/**/*.html",
+    "./src/static/src/**/*.js",
+    "./node_modules/tw-elements/dist/js/**/*.js"
+  ],
   theme: {
     extend: {},
   },
   plugins: [
-
+    require('./node_modules/tw-elements/dist/plugin')
   ],
 }

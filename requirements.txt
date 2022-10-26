@@ -4,5 +4,6 @@ wtforms
 flask_bcrypt
 flask_login
 flask_admin
-flask_google_login
+# flask_google_login
 oauthlib
+Flask-FontAwesome

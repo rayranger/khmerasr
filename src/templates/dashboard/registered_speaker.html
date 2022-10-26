@@ -1,86 +1,363 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
-    <div class="flex flex-col text-gray-700">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="overflow-hidden">
-              <table class="min-w-full">
-                <thead class="bg-white border-b">
-                  <tr>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                      #
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                      First
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                      Last
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Gender
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                      Age
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Occupation
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Phone number
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                {% for speaker in speakers %}
-                  <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{speaker.id}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{speaker.first_name}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{speaker.last_name}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{speaker.gender}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{speaker.age}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{speaker.occupation}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{speaker.phone_number}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <div class="flex flex-row space-x-10 items-center">
-                            <div>
-                                <a href="">
-                                    <div class="text-yellow-600">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            <div>
-                                <a href="/dashboard/speaker/delete/{{speaker.id}}">
-                                    <div class="text-red-600">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-            </div>
+<div class="flex flex-col text-gray-700 space-x-5 w-full">
+  <!-- Btn -->
+  <div class="flex flex-row space-x-3 items-center self-end">
+    <div>
+      <button type="button"
+        class="inline-block px-5 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+        data-bs-toggle="modal" data-bs-target="#addNewSpeaker">
+        <div class="flex flex-row space-x-2 items-center">
+          <div>
+            <i class="fa-solid fa-circle-plus"></i>
+          </div>
+          <div>
+            Add new speaker
           </div>
         </div>
+      </button>
     </div>
+    <div>
+      <a href=""
+        class="inline-block px-5 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+        <div class="flex flex-row space-x-2 items-center">
+          <div>
+            <i class="fa-solid fa-trash"></i>
+          </div>
+          <div>
+            Delete all configurations
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- Table -->
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full">
+          <thead class="bg-white border-b">
+            <tr>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                #
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                First
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Last
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Gender
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Age
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Occupation
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Phone number
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for speaker in speakers %}
+            <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {{speaker.id}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{speaker.first_name}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{speaker.last_name}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{speaker.gender}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{speaker.age}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{speaker.occupation}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{speaker.phone_number}}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <div class="flex flex-row space-x-10 items-center">
+                  <div>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#addNewSpeaker{{speaker.id}}" class=" cursor-pointer">
+                      <div class="text-yellow-600">
+                        <i class="fa-solid fa-pen"></i>
+                      </div>
+                    </a>
+                  </div>
+                  <div>
+                    <a href="/dashboard/speaker/delete/{{speaker.id}}">
+                      <div class="text-red-600">
+                        <i class="fa-solid fa-trash"></i>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Edit Model -->
+            <div
+              class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+              id="addNewSpeaker{{speaker.id}}" tabindex="-1" aria-labelledby="addNewSpeaker{{speaker.id}}" aria-modal="true" role="dialog">
+              <div
+                class="modal-dialog modal-dialog-centered modal-dialog-scrollable relative w-auto pointer-events-none min-w-max">
+                <div
+                  class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+                  <div
+                    class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                    <h5 class="text-xl font-medium leading-normal text-gray-800"
+                      id="exampleModalCenteredScrollableLabel">
+                      <div class="flex flex-row space-x-3 items-center">
+                        <div>
+                          <i class="fa-regular fa-pen-to-square"></i>
+                        </div>
+                        <div>
+                          Edit speaker
+                        </div>
+                      </div>
+                    </h5>
+                    <button type="button"
+                      class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                      data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body relative p-4">
+                    <div>
+                      <form method="POST">
+                        {{ edit_speaker_form.csrf_token }}
+                        {{edit_speaker_form.hidden_tag()}}
+                        <div class="flex flex-col space-y-5 items-start w-full">
+                          <!-- id -->
+                          <div>
+                            <input type="text" name="edit_id" id="edit_id"
+                              class="outline-none border p-3 rounded-md" placeholder="id" value="{{speaker.id}}" hidden>
+                          </div>
+                          <div class="flex flex-row space-x-3 items-center">
+                            <!-- firstname -->
+                            <div>
+                              <input type="text" name="edit_firstname" id="edit_firstname"
+                                class="outline-none border p-3 rounded-md" placeholder="firstname" value="{{speaker.first_name}}">
+                            </div>
+                            <!-- lastname -->
+                            <div>
+                              <input type="text" name="edit_lastname" id="edit_lastname"
+                                class="outline-none border p-3 rounded-md" placeholder="lastname" value="{{speaker.last_name}}">
+                            </div>
+                          </div>
+                          <div class="flex flex-row space-x-3 items-end">
+                            <!-- Gender -->
+                            <div>
+                              <fieldset class="border p-4 py-1 rounded-md">
+                                <legend>Gender</legend>
+                                <div class="flex justify-around w-full">
+                                  {% if speaker.gender == 'Male' %}
+                                  <div class="form-check form-check-inline">
+                                    <input
+                                      class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                      type="radio" name="edit_gender" id="edit_gender" value="Male" checked>
+                                    <label class="form-check-label inline-block text-gray-800"
+                                      for="inlineRadio10">Male</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input
+                                      class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                      type="radio" name="edit_gender" id="edit_gender" value="Female">
+                                    <label class="form-check-label inline-block text-gray-800"
+                                      for="inlineRadio20">Female</label>
+                                  </div>
+                                  {% else %}
+                                  <div class="form-check form-check-inline">
+                                    <input
+                                      class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                      type="radio" name="edit_gender" id="edit_gender" value="Male">
+                                    <label class="form-check-label inline-block text-gray-800"
+                                      for="inlineRadio10">Male</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input
+                                      class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                      type="radio" name="edit_gender" id="edit_gender" value="Female" checked>
+                                    <label class="form-check-label inline-block text-gray-800"
+                                      for="inlineRadio20">Female</label>
+                                  </div>
+                                  {% endif %}
+                                </div>
+                              </fieldset>
+                            </div>
+                            <!-- Age -->
+                            <div>
+                              <input type="number" name="edit_age" id="edit_age" class="outline-none border p-3 rounded-md"
+                                placeholder="age" value="{{speaker.age}}">
+                            </div>
+                            <!-- occupation -->
+                            <div>
+                              <input type="text" name="edit_occupation" id="edit_occupation"
+                                class="outline-none border p-3 rounded-md" placeholder="occupation" value="{{speaker.occupation}}">
+                            </div>
+                          </div>
+                          <!-- phone number -->
+                          <div>
+                            <input type="text" name="edit_phone_number" id="edit_phone_number"
+                              class="outline-none border p-3 rounded-md" placeholder="phone_number" value="{{speaker.phone_number}}">
+                          </div>
+                          <!-- btn -->
+                          <div class="self-end uppercase">
+                            <button type="submit"
+                              class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                              {{edit_speaker_form.submit(class='cursor-pointer uppercase')}}
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div
+                    class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                    <button type="button"
+                      class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                      data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add new Modal -->
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+  id="addNewSpeaker" tabindex="-1" aria-labelledby="addNewSpeaker" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable relative w-auto pointer-events-none min-w-max">
+    <div
+      class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+      <div
+        class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalCenteredScrollableLabel">
+          <div class="flex flex-row space-x-3 items-center">
+            <div>
+              <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div>
+              New speaker
+            </div>
+          </div>
+        </h5>
+        <button type="button"
+          class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body relative p-4">
+        <div>
+          <form method="POST">
+            {{ add_new_speaker_form.csrf_token }}
+            {{add_new_speaker_form.hidden_tag()}}
+            <div class="flex flex-col space-y-5 items-start w-full">
+              <!-- user_id -->
+              <div class="flex flex-row space-x-3 items-center">
+                <div>
+                  <p>Register as a speaker for user:</p>
+                </div>
+                <div>
+                  <select name="user_id" id="user_id" class="p-3 border rounded-md bg-white">
+                    {% for user in users %}
+                    <option value="{{user.id}}">{{user.username}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="flex flex-row space-x-3 items-center">
+                <!-- firstname -->
+                <div>
+                  <input type="text" name="firstname" id="firstname" class="outline-none border p-3 rounded-md"
+                    placeholder="firstname">
+                </div>
+                <!-- lastname -->
+                <div>
+                  <input type="text" name="lastname" id="lastname" class="outline-none border p-3 rounded-md"
+                    placeholder="lastname">
+                </div>
+              </div>
+              <div class="flex flex-row space-x-3 items-end">
+                <!-- Gender -->
+                <div>
+                  <fieldset class="border p-4 py-1 rounded-md">
+                    <legend>Gender</legend>
+                    <div class="flex justify-around w-full">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                          type="radio" name="gender" id="gender" value="Male">
+                        <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Male</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                          type="radio" name="gender" id="gender" value="Female">
+                        <label class="form-check-label inline-block text-gray-800" for="inlineRadio20">Female</label>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <!-- Age -->
+                <div>
+                  <input type="number" name="age" id="age" class="outline-none border p-3 rounded-md" placeholder="age">
+                </div>
+                <!-- occupation -->
+                <div>
+                  <input type="text" name="occupation" id="occupation" class="outline-none border p-3 rounded-md"
+                    placeholder="occupation">
+                </div>
+              </div>
+              <!-- phone number -->
+              <div>
+                <input type="text" name="phone_number" id="phone_number" class="outline-none border p-3 rounded-md"
+                  placeholder="phone_number">
+              </div>
+              <!-- btn -->
+              <div class="self-end uppercase">
+                <button type="submit"
+                  class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                  {{add_new_speaker_form.submit(class='cursor-pointer uppercase')}}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+        <button type="button"
+          class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+          data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  spaker_management = document.getElementById('spaker_management')
+  spaker_management.classList.add('text-blue-500')
+</script>
 {% endblock %}

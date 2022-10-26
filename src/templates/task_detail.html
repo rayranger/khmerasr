@@ -3,7 +3,7 @@
 Task Detail
 {% endblock %}
 {% block content %}
-<div class="h-screen px-10 py-5 text-gray-700">
+<div class="min-h-screen px-10 py-5 text-gray-700">
     <div class="flex flex-col space-y-10 item-start">
         <!-- Back btn here -->
         <div>
@@ -250,6 +250,7 @@ Task Detail
             type: 'GET',
             success: (result)=>{
                 $(task_detail_model).replaceWith(result)
+                console.log(result)
             }
         })
         })

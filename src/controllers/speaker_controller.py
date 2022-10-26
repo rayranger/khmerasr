@@ -24,8 +24,8 @@ class SpeakerController():
         db.session.commit()
         return new_speaker
     
-    def update_speaker(self, new_speaker_obj):
-        speaker_obj = self.is_existed(data=new_speaker_obj.id)
+    def update_speaker(self, new_speaker_obj, id):
+        speaker_obj = self.is_existed(data=id)
         if speaker_obj:
             speaker_obj.first_name = new_speaker_obj.first_name
             speaker_obj.last_name = new_speaker_obj.last_name

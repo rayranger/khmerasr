@@ -70,7 +70,8 @@ class RecordingController():
             total_recordings_id.append(total_recording.id)
         
         for completed_recording in completed_recordings:
-            completed_recordings_id.append(completed_recording.id)
+            if completed_recording.recording.task_id == selected_task.id:
+                completed_recordings_id.append(completed_recording.recording.id)
 
         for total_recording_id in total_recordings_id:
             if total_recording_id not in completed_recordings_id:
@@ -79,4 +80,5 @@ class RecordingController():
         for id in remaining_recordings_id:
             recording = self.is_existed(data=id)
             remaining_recordings.append(recording)
+        # print(remaining_recordings)
         return remaining_recordings

@@ -1,5 +1,8 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
     This is overview page
-    <iframe src="https://delicate-swan-0af575.netlify.app/" frameborder="0"></iframe>
+    <script>
+        overview = document.getElementById('overview')
+        overview.classList.add('text-blue-500')
+    </script>
 {% endblock %}

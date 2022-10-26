@@ -15,4 +15,4 @@ class Speaker(db.Model):
     updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
 
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    records = db.relationship('Audio', backref='speaker', lazy=True, cascade="all,delete")
+    records = db.relationship('Audio', backref='speaker', lazy=True)

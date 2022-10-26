@@ -7,11 +7,11 @@
         <div class="flex flex-row items-start w-full h-full space-x-5">
             <div class="w-1/5 h-full p-3 border rounded-md">
                 <div class="flex flex-col space-y-3 justify-center">
-                    <div>
-                        <a href="{{url_for('dashboard_overvie_page')}}">
+                    <div id="overview">
+                        <a href="{{url_for('dashboard_overview_page')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
-                                    <i class="fa-solid fa-gauge-high"></i>
+                                    <i class="fa-solid fa-chart-column"></i>
                                 </div>
                                 <div>
                                     <p>Overview</p>
@@ -20,7 +20,7 @@
                         </a>
                     </div>
                     <hr>
-                    <div>
+                    <div id="spaker_management">
                         <a href="{{url_for('dashboard_speaker_page')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
@@ -33,7 +33,7 @@
                         </a>
                     </div>
                     <hr>
-                    <div>
+                    <div id="user_management">
                         <a href="{{url_for('dashboard_user_page')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
@@ -46,7 +46,7 @@
                         </a>
                     </div>
                     <hr>
-                    <div>
+                    <div id="audio_management">
                         <a href="{{url_for('dashboard_record_audio')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
@@ -59,7 +59,7 @@
                         </a>
                     </div>
                     <hr>
-                    <div>
+                    <div id="record_config">
                         <a href="{{url_for('dashboard_record_configuration_page')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>
@@ -85,7 +85,7 @@
                         </a>
                     </div>
                     <hr> -->
-                    <div>
+                    <div id="task_management">
                         <a href="{{url_for('dashboard_assign_task')}}">
                             <div class="flex flex-row items-center space-x-3">
                                 <div>

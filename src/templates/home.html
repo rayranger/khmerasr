@@ -5,25 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/dist/output.css">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='storage/images/favion-icon.png')}}">
+    <!-- tailwind element -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1231/1231089.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-            extend: {
-                fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                },
-            }
-            }
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+    <!-- Tailwind -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>
         Khmer Voice ASR
@@ -74,13 +63,13 @@
                         </a>
                     </div>
                     <div>
-                        <a href="">
+                        <a href="{{url_for('dashboard_overview_page')}}">
                             <div class="flex flex-row space-x-3 items-center p-2 border border-white rounded-md hover:text-black hover:bg-white ease-in duration-150">
                                 <div>
-                                    <i class="fa-solid fa-download"></i>
+                                    <i class="fa-solid fa-gauge"></i>
                                 </div>
                                 <div>
-                                    <p>Download app</p>
+                                    <p>Dashboard</p>
                                 </div>
                             </div>
                         </a>
@@ -102,7 +91,7 @@
                                 <i class="fa-solid fa-right-from-bracket"></i>
                               </div>
                               <div>
-                                <a href="{{url_for('signin_page')}}">Sign out</a>
+                                <a href="{{url_for('signout_page')}}">Sign out</a>
                               </div>
                             </div>
                         </div>
@@ -177,5 +166,4 @@
         </div>
     </div>
 </body>
-
 </html>

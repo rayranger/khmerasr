@@ -4,6 +4,7 @@ from datetime import datetime
 import soundfile
 from src import db
 import os.path
+import os
 import pyaudio
 
 class AudioController():
@@ -53,11 +54,12 @@ class AudioController():
             return None
     
     def delete_audio(self, id):
-        recordFile = self.is_existed(data=id)
-        if recordFile:
-            db.session.delete(recordFile)
+        audioFile = self.is_existed(data=id)
+        if audioFile:
+            db.session.delete(audioFile)
             db.session.commit()
-            return recordFile
+            os.remove(f"src/static/storage/audios/recordings/{audioFile.filename}")
+            return audioFile
         else:
             return None
     

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    Congratulations
+{% endblock %}
+{% block content %}
+    <div class="min-h-screen flex flex-col items-center justify-center">
+        <div>
+            <img src="{{url_for('static', filename='storage/images/congrate.png')}}" alt="" class="w-full h-full">
+        </div>
+        
+    </div>
+{% endblock %}

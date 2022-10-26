@@ -37,5 +37,5 @@ class User (db.Model, UserMixin):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
     roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True)
-    speaker = db.relationship('Speaker', backref=backref("user", cascade="all,delete"), lazy=True, uselist=False)
-    tasks = db.relationship('Task', backref='created_by', lazy=True, cascade="all,delete")
+    speaker = db.relationship('Speaker', backref="user", lazy=True, uselist=False)
+    tasks = db.relationship('Task', backref='created_by', lazy=True)

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_fontawesome import FontAwesome
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -23,3 +24,4 @@ login_manager.login_message = "Please sign in to continue"
 GOGOLE_CLIENT_ID = "290046354585-8b9n0ch4m25tq9ebtblffkgs23q9vp5p.apps.googleusercontent.com"
 
 from src.routes import routes
+from src.routes import dashboard_routes

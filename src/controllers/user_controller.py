@@ -26,12 +26,12 @@ class UserController(UserMixin):
             db.session.commit()
             return new_user
     
-    def update_user(self, new_user_obj):
-        user_obj = self.is_existed(data=new_user_obj.id)
+    def update_user(self, new_user_obj, id):
+        user_obj = self.is_existed(data=id)
         if user_obj:
             user_obj.username = new_user_obj.username
-            user_obj.password = new_user_obj.password
             user_obj.email = new_user_obj.email
+            user_obj.is_active = new_user_obj.is_active
             user_obj.updated_at = default_values.TODAY_DATE_TIME
             db.session.commit()
             return new_user_obj

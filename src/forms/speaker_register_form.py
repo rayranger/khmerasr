@@ -9,4 +9,4 @@ class SpeakerRegisterForm(FlaskForm):
     age = StringField(label='Age: ', validators=[DataRequired()])
     occupation = StringField(label='Occupation', validators=[DataRequired()])
     phone_number = StringField(label='Phone number', validators=[DataRequired()])
-    submit = SubmitField(label="Continue", validators=[DataRequired()])
+    submit = SubmitField(label="Add new speaker", validators=[DataRequired()])
