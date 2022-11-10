@@ -3,15 +3,15 @@
 Task
 {% endblock %}
 {% block content %}
-    <div class="min-h-screen flex flex-col space-y-5 sm:p-32 p-5 text-gray-700">
-        <div class="font-bold sm:text-3xl text-base">
-            <p>Available Tasks</p>
-        </div>
-        <div class="w-full sm:text-base text-sm">
-            <div class="accordion" id="accordionExample">
-                {% for task in tasks %}
-                <div class="accordion-item bg-white border border-gray-200">
-                  <h2 class="accordion-header mb-0" id="headingOne">
+<div class="min-h-screen flex flex-col space-y-5 sm:p-32 p-5 text-gray-700">
+    <div class="font-bold sm:text-3xl text-base">
+        <p>Available Tasks</p>
+    </div>
+    <div class="w-full sm:text-base text-sm">
+        <div class="accordion" id="accordionExample">
+            {% for task in tasks %}
+            <div class="accordion-item bg-white border border-gray-200">
+                <h2 class="accordion-header mb-0" id="headingOne">
                     <button class="
                       accordion-button
                       relative
@@ -26,60 +26,63 @@ Task
                       rounded-none
                       transition
                       focus:outline-none
-                    " type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{task.id}}" aria-expanded="true"
-                      aria-controls="collapseOne">
-                      <div class="flex flex-row items-center sm:space-x-5 space-x-3 w-full">
-                        <div>
-                            #{{task.name}}
-                        </div>
-                        <div>
-                            |
-                        </div>
-                        <div class="flex flex-row space-x-3 items-center text-w">
+                    " type="button">
+                        <div class="flex flex-row items-center sm:space-x-5 space-x-3 w-full">
                             <div>
-                                Total recordings
+                                # {{task.name}}
                             </div>
-                            <div class="px-2 bg-blue-500 rounded-sm text-white">
-                                10
-                            </div>
-                        </div>
-                        {% if total_remaining_recordings[task.id-1] > 0 %}
-                        <div class="flex flex-row space-x-3 items-center text-w">
                             <div>
-                                Remaining
+                                |
                             </div>
-                            <div class="px-2 bg-yellow-600 rounded-sm text-white">
-                                {{total_remaining_recordings[task.id-1]}} / {{total_recordings[task.id-1]}}
+                            {% if total_remaining_recordings[task.id-1] > 0 %}
+                            <div class="flex flex-row space-x-3 items-center text-w">
+                                <div>
+                                    Remaining
+                                </div>
+                                <div class="px-2 bg-yellow-600 rounded-sm text-white">
+                                    {{total_remaining_recordings[task.id-1]}} / {{total_recordings[task.id-1]}}
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="px-2 bg-green-600 rounded-sm text-white">
+                                Completed
+                            </div>
+                            {% endif %}
+                            <div class="drop-shadow-md font-bold text-gray-700 border py-1 px-4 shadow-md" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{task.id}}"
+                            aria-expanded="true" aria-controls="collapseOne">
+
+                                <p>Detail</p>
+                            </div>
+                            <div class="self-end py-4 px-5">
+                                <a href="/task-detail/{{task.id}}">
+                                    <div class=" bg-pink-900 py-1 px-2 text-white rounded-sm min-w-max">
+                                        Start task or Continue
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                        {% else %}
-                        <div class="px-2 bg-green-600 rounded-sm text-white">
-                            Completed
-                        </div>
-                        {% endif %}
-            
-                      </div>        
                     </button>
-                  </h2>
-                  <div id="collapse{{task.id}}" class="accordion-collapse collapse " aria-labelledby="headingOne"
+                </h2>
+                <div id="collapse{{task.id}}" class="accordion-collapse collapse " aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="flex flex-col">
                         <div class="accordion-body py-4 px-5">
-                            <strong class="px-2 py-1 bg-gray-700 text-white rounded-sm mr-3">Descripton</strong> {{task.description}}
+                            <strong class="px-2 py-1 bg-gray-700 text-white rounded-sm mr-3">Descripton</strong>
+                            {{task.description}}
                         </div>
                         <div class="self-end py-4 px-5">
-                              <a href="/task-detail/{{task.id}}">
+                            <a href="/task-detail/{{task.id}}">
                                 <div class=" bg-pink-900 py-1 px-2 text-white rounded-sm min-w-max">
                                     Start task
                                 </div>
-                              </a>
+                            </a>
                         </div>
                     </div>
-                  </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
     </div>
+</div>
 
 {% endblock %}
