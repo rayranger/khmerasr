@@ -3,6 +3,7 @@ from src.models import role
 
 class RoleController():
 
+    # Check by id
     def is_existed(self, id):
         req = role.Role.query.filter_by(id=id).first()
         if req:

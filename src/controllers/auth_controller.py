@@ -20,7 +20,7 @@ client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret
 flow = Flow.from_client_secrets_file(
         client_secrets_file=client_secrets_file,
         scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-        redirect_uri="http://127.0.0.1:5000/callback",
+        redirect_uri="http://ec2-18-140-69-24.ap-southeast-1.compute.amazonaws.com/callback",
     )
 
 class AuthController():
@@ -67,39 +67,65 @@ class AuthController():
         return True
 
     def google_sign_in(self):
-        authorization_url, state = flow.authorization_url()
-        session["state"] = state
+        authorization_url, state_req = flow.authorization_url()
+        session["state_req"] = state_req
         return authorization_url
     
     def google_callback(self):
         flow.fetch_token(authorization_response=request.url)
-        if not session["state"] == request.args["state"]:
+        # if not session["state_req"] == request.args["state_req"]:
+        #     return False
+        # else:
+        #     credentials = flow.credentials
+        #     request_session = requests.session()
+        #     cached_session = cachecontrol.CacheControl(request_session)
+        #     token_request = google.auth.transport.requests.Request(session=cached_session)
+        #     id_info = id_token.verify_oauth2_token(
+        #         id_token=credentials._id_token,
+        #         request=token_request,
+        #         audience=GOGOLE_CLIENT_ID
+        #     )
+        #     roles = roleController.get_all_roles()
+        #     username = id_info.get("given_name").lower()
+        #     password = random_password.RANDOM_NUMBER
+        #     email = id_info.get("email")
+        #     new_user = userController.create_user(
+        #         username=username,
+        #         password=password,
+        #         email=email,
+        #         role=roles[1]
+        #     )
+        #     if new_user:
+        #         login_user(new_user)
+        #         return False
+        #     else:
+        #         exist_user = userController.is_existed(data=username)
+        #         login_user(exist_user)
+        #         return True
+        credentials = flow.credentials
+        request_session = requests.session()
+        cached_session = cachecontrol.CacheControl(request_session)
+        token_request = google.auth.transport.requests.Request(session=cached_session)
+        id_info = id_token.verify_oauth2_token(
+            id_token=credentials._id_token,
+            request=token_request,
+            audience=GOGOLE_CLIENT_ID
+        )
+        roles = roleController.get_all_roles()
+        username = id_info.get("given_name").lower()
+        password = random_password.RANDOM_NUMBER
+        email = id_info.get("email")
+        new_user = userController.create_user(
+            username=username,
+            password=password,
+            email=email,
+            role=roles[1]
+        )
+        if new_user:
+            login_user(new_user)
             return False
         else:
-            credentials = flow.credentials
-            request_session = requests.session()
-            cached_session = cachecontrol.CacheControl(request_session)
-            token_request = google.auth.transport.requests.Request(session=cached_session)
-            id_info = id_token.verify_oauth2_token(
-                id_token=credentials._id_token,
-                request=token_request,
-                audience=GOGOLE_CLIENT_ID
-            )
-            roles = roleController.get_all_roles()
-            username = id_info.get("given_name").lower()
-            password = random_password.RANDOM_NUMBER
-            email = id_info.get("email")
-            new_user = userController.create_user(
-                username=username,
-                password=password,
-                email=email,
-                role=roles[1]
-            )
-            if new_user:
-                login_user(new_user)
-                return False
-            else:
-                exist_user = userController.is_existed(data=username)
-                login_user(exist_user)
-                return True
+            exist_user = userController.is_existed(data=username)
+            login_user(exist_user)
+            return True
     

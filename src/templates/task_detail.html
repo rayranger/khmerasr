@@ -3,12 +3,12 @@
 Task Detail
 {% endblock %}
 {% block content %}
-<div class="min-h-screen px-10 py-5 text-gray-700">
-    <div class="flex flex-col space-y-10 item-start">
+<div class="min-h-screen sm:px-10 px-5 py-5 text-gray-700">
+    <div class="flex flex-col sm:space-y-10 space-y-5 item-start">
         <!-- Back btn here -->
         <div>
             <a href="{{url_for('task_page')}}">
-                <div class="flex flex-row space-x-3 px-5 py-3 text-blue-500 shadow-md max-w-max">
+                <div class="flex flex-row space-x-3 px-5 py-3 text-blue-500 shadow-md max-w-max sm:text-base text-sm">
                     <div>
                         <i class="fa-solid fa-circle-left"></i>
                     </div>
@@ -18,19 +18,20 @@ Task Detail
                 </div>
             </a>
         </div>
-        <div class="px-10 w-full" id="task_detail_model">
+        <div class="sm:px-10 px-5 w-full" id="task_detail_model">
             <div class="flex flex-col space-y-10">
                 <!-- Title here -->
-                <div class="flex flex-col space-y-3">
-                    <div class="text-xl">
+                <div class="flex flex-col sm:space-y-3 space-y-1">
+                    <div class="sm:text-xl text-sm">
                         <p>{{selected_task.name}}</p>
                     </div>
                     <div>
                         <div class="flex flex-row items-center justify-between">
-                            <div class="text-3xl font-bold">
+                            <div class="sm:text-3xl text-xl font-bold">
                                 <p>Recording {{recording.id}}</p>
                             </div>
-                            <div class="flex flex-row space-x-3 items-center px-3 py-2 border border-blue-500 rounded-md">
+                            <div
+                                class="flex flex-row space-x-3 items-center sm:px-3 sm:py-2 p-2 border border-blue-500 rounded-md sm:text-base text-sm">
                                 <div>
                                     <p>Completed</p>
                                 </div>
@@ -47,7 +48,7 @@ Task Detail
                 <!-- Info here -->
                 <div class="flex flex-col">
                     <div class="bg-gray-700 text-white py-2 px-6 rounded-tl-md rounded-tr-md max-w-max">
-                        <div class="flex flex-row space-x-3 uppercase">
+                        <div class="flex flex-row space-x-3 uppercase sm:text-base text-sm">
                             <div>
                                 <i class="fa-solid fa-circle-info"></i>
                             </div>
@@ -57,18 +58,19 @@ Task Detail
                         </div>
                     </div>
                     <div class="bg-gray-300 rounded-md rounded-tl-none p-3">
-                        <div class="flex flex-row item-center justify-center space-x-5 border border-gray-700 border-dashed rounded-md p-3">
-                            <div class="w-1/2">
+                        <div
+                            class="sm:text-base text-sm flex sm:flex-row item-center justify-center sm:space-x-5 sm:space-y-0 flex-col space-y-5 space-x-0 border border-gray-700 border-dashed rounded-md p-3">
+                            <div class="sm:w-1/2 w-full">
                                 <div class="flex flex-col space-y-3 w-full items-start">
                                     <div class="font-bold uppercase">
                                         instruction
                                     </div>
-                                    <div class="self-center px-10">
+                                    <div class="sm:self-center self-start sm:px-10 px-5 text-justify">
                                         {{recording.instruction}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-1/2 border-l pl-5 border-gray-700 border-dotted">
+                            <div class="sm:w-1/2 w-full sm:border-l sm:pl-5 border-gray-700 border-dotted">
                                 <div class="flex flex-col space-y-3 w-full items-start">
                                     <div class="font-bold uppercase">
                                         <div class="flex flex-row space-x-3 items-center">
@@ -80,7 +82,7 @@ Task Detail
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="self-center px-10">
+                                    <div class="sm:self-center self-start sm:px-10 px-5 text-justify">
                                         {{recording.transcript}}
                                     </div>
                                 </div>
@@ -91,8 +93,8 @@ Task Detail
             </div>
         </div>
         <!-- action here -->
-        <div class="px-10">
-            <div class="flex flex-row space-x-5 items-center justify-center">
+        <div class="px-10 sm:block hidden">
+            <div class="flex sm:flex-row space-x-5 space-y-0  items-center justify-center">
                 <div class="bg-orange-500 px-4 py-1 text-white rounded-md">
                     <div class="flex flex-row space-x-3 item-center">
                         <div>
@@ -132,12 +134,47 @@ Task Detail
                             Save & Next
                         </div>
                         <div>
-                            <i class="fa-solid fa-angles-right"></i>
+                            <i class="fa-solid fa-angles-right "></i>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+
+        <!-- action in phone screen -->
+        <div class="sm:hidden block">
+            <div class="px-5 flex flex-col space-y-5 items-center justify-center w-full">
+                <div id="mic_btn_phone"
+                    class="p-16 px-24 border-4 border-red-500 rounded-full text-6xl text-red-500 drop-shadow-lg">
+                    <i class="fa-solid fa-microphone drop-shadow-lg"></i>
+                </div>
+                <div class="w-full">
+                    <audio src="" controls class="rounded-md w-full" id="preview_audio_phone"></audio>
+                </div>
+                <div class="flex flex-row space-x-3 items-center text-lg w-full justify-between">
+                    <div class="bg-orange-500 px-3 py-1 text-white rounded-md">
+                        <div class="flex flex-row space-x-2 item-center">
+                            <div>
+                                <i class="fa-solid fa-angles-left"></i>
+                            </div>
+                            <div>
+                                Previous
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-green-600 px-3 py-1 text-white rounded-md cursor-pointer" id="next_btn_phone">
+                        <div class="flex flex-row space-x-2 item-center">
+                            <div>
+                                Next
+                            </div>
+                            <div>
+                                <i class="fa-solid fa-angles-right "></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -147,24 +184,46 @@ Task Detail
     const SAMPLE_SIZE = "{{recording_config.number_of_sample}}"
     const CHANNEL_COUNT = "{{recording_config.channel}}"
     console.log(`${SAMPLE_RATE}, ${SAMPLE_SIZE}, ${CHANNEL_COUNT}`)
+
+    preview_audio_phone = document.getElementById('preview_audio_phone')
     preview_audio = document.getElementById('preview_audio')
+
     next_btn = document.getElementById('next_btn')
+    next_btn_phone = document.getElementById('next_btn_phone')
+
     mic_btn_icon = document.getElementById('mic_btn_icon')
     mic_btn_text = document.getElementById('mic_btn_text')
-
     mic_btn = document.getElementById('mic_btn')
+
+    mic_btn_phone = document.getElementById('mic_btn_phone')
 
     flag = 0
 
-    mic_btn.addEventListener('click', ()=>{
+    mic_btn_phone.addEventListener('click', () => {
+        if (flag == 0) {
+            mic_btn_phone.classList.remove('text-red-500')
+            mic_btn_phone.classList.add('bg-red-500')
+            mic_btn_phone.classList.add('text-white')
+            mic_btn_phone.innerHTML = '<i class="fa-solid fa-stop"></i>'
+            flag = 1
+        } else {
+            mic_btn_phone.classList.remove('text-red-500')
+            mic_btn_phone.classList.remove('bg-red-500')
+            mic_btn_phone.classList.add('text-red-500')
+            mic_btn_phone.innerHTML = '<i class="fa-solid fa-microphone drop-shadow-lg"></i>'
+            flag = 0
+        }
+    })
+
+    mic_btn.addEventListener('click', () => {
         console.log(flag)
-        if (flag==0){
+        if (flag == 0) {
             mic_btn.classList.remove('text-red-500')
 
             mic_btn.classList.add('bg-red-500')
             mic_btn.classList.add('text-white')
 
-            mic_btn_icon.innerHTML = '<i class="fa-solid fa-stop"></i>'
+            mic_btn_icon.innerHTML = '<i class="fa-solid fa-stop drop-shadow-lg"></i>'
             mic_btn_text.innerHTML = 'Stop'
 
             flag = 1
@@ -185,6 +244,7 @@ Task Detail
     })
 
     let audioFile = new Blob()
+    let audioFile_phone = new Blob()
 
     let constraintObj = {
         audio: {
@@ -197,34 +257,89 @@ Task Detail
         video: false,
     };
 
-    console.log(constraintObj)
     navigator.mediaDevices.getUserMedia(constraintObj)
         .then(function (mediaStreamObj) {
             let mediaRecorder = new MediaRecorder(mediaStreamObj)
+            let mediaRecorder_phone = new MediaRecorder(mediaStreamObj)
             let chunks = []
+            let chunks_phone = []
+
+            mic_btn_phone.addEventListener('click', (ev) => {
+                if (flag == 1) {
+                    mediaRecorder_phone.start();
+                    console.log(mediaRecorder_phone.state);
+                } else {
+                    mediaRecorder_phone.stop();
+                    console.log(mediaRecorder_phone.state);
+                }
+            })
 
             mic_btn.addEventListener('click', (ev) => {
-                if (flag == 1){
+                if (flag == 1) {
                     mediaRecorder.start();
                     console.log(mediaRecorder.state);
-                }else{
+                } else {
                     mediaRecorder.stop();
                     console.log(mediaRecorder.state);
                 }
             })
+
+            // for PC
             mediaRecorder.ondataavailable = function (ev) {
                 chunks.push(ev.data);
             }
             mediaRecorder.onstop = (ev) => {
-                audioFile = new Blob(chunks,{"type":"audio/{{recording_config.filetype}};"});
+                audioFile = new Blob(chunks, { "type": "audio/{{recording_config.filetype}};" });
                 let audioURL = URL.createObjectURL(audioFile);
                 preview_audio.src = audioURL
                 chunks = []
+            }
+
+            //  for Phone
+            mediaRecorder_phone.ondataavailable = function (ev) {
+                chunks_phone.push(ev.data);
+            }
+            mediaRecorder_phone.onstop = (ev) => {
+                audioFile_phone = new Blob(chunks_phone, { "type": "audio/{{recording_config.filetype}};" });
+                let audioURL = URL.createObjectURL(audioFile_phone);
+                preview_audio_phone.src = audioURL
+                chunks_phone = []
             }
         })
         .catch(function (err) {
             alert(err.message);
         });
+
+    next_btn_phone.addEventListener('click', () => {
+        const timeElapsed = Date.now()
+        const today = new Date(timeElapsed)
+        let json_filename = ''
+        let data = new FormData()
+        username = "{{current_user.username}}"
+        filetype = "{{recording_config.filetype}}"
+        filename = `${username}_${today.toISOString()}_.${filetype}`
+        data.append('audioFile', audioFile_phone, filename)
+        fetch(`http://127.0.0.1:5000/save-audio`, {
+            method: 'POST',
+            body: data
+        }).then(response => response.json()).then(json => {
+            json_filename = json
+            console.log(json_filename)
+            $.ajax({
+                url: '/recording',
+                data: { id: url_param, filename: json_filename },
+                dataType: 'json',
+                async: true,
+                processData: true,
+                type: 'GET',
+                success: (result) => {
+                    $(task_detail_model).replaceWith(result)
+                    console.log(result)
+                }
+            })
+        })
+        audioFile = new Blob()
+    })
 
     next_btn.addEventListener('click', () => {
         const timeElapsed = Date.now()
@@ -242,20 +357,24 @@ Task Detail
             json_filename = json
             console.log(json_filename)
             $.ajax({
-            url:'/recording',
-            data:{id:url_param, filename:json_filename},
-            dataType: 'json',
-            async: true,
-            processData: true,
-            type: 'GET',
-            success: (result)=>{
-                $(task_detail_model).replaceWith(result)
-                console.log(result)
-            }
-        })
+                url: '/recording',
+                data: { id: url_param, filename: json_filename },
+                dataType: 'json',
+                async: true,
+                processData: true,
+                type: 'GET',
+                success: (result) => {
+                    $(task_detail_model).replaceWith(result)
+                    console.log(result)
+                }
+            })
         })
         audioFile = new Blob()
     })
+
+
+
+
 
 </script>
 {% endblock %}

@@ -7,3 +7,10 @@ flask_admin
 # flask_google_login
 oauthlib
 Flask-FontAwesome
+email-validator
+soundfile
+google-auth
+google-auth-oauthlib
+CacheControl
+waitress
+flask-cors

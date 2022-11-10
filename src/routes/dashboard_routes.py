@@ -1,22 +1,22 @@
-from curses import flash
-from datetime import datetime
 import flask
 from src import app
-from flask import render_template, redirect, url_for, jsonify, request, flash
-from werkzeug.utils import secure_filename
+from flask import render_template, redirect, url_for, request, flash, send_file
 from src.forms.edit_speaker_form import EditSpeakerForm
 from src.forms.recording_form import RecordingForm
-from src.forms.register_form import RegisterForm
-from src.forms.sing_in_form import SigninForm
 from src.forms.record_config_form import RecordConfigForm
+from src.forms.edit_recording_form import EditRecordingForm
 from src.forms.speaker_register_form import SpeakerRegisterForm
 from src.forms.add_new_user_form import AddNewUserForm
 from src.forms.edit_user_form import EditUserForm
 from src.forms.assign_task_form import AssignTaskForm
-from src.models import user, speaker
-from src.controllers import audio_controller, user_controller, auth_controller, speaker_controller, record_config_controller, task_controller, recording_controller, role_controller
+from src.forms.edit_task_form import EditTaskForm
+from src.forms.export_data_form import ExportDataForm
+from src.models import user, speaker, task, recording
+from src.controllers import audio_controller, user_controller, auth_controller, speaker_controller, record_config_controller, task_controller, recording_controller, role_controller, export_data_controller, export_history_controller
 from flask_login import login_required, current_user
 import functools
+import os
+import shutil
 
 userController = user_controller.UserController()
 authController = auth_controller.AuthController()
@@ -26,6 +26,8 @@ recordConfigController = record_config_controller.RecordConfigController()
 taskController = task_controller.TaskController()
 recordingController = recording_controller.RecordingController()
 roleController = role_controller.RoleController()
+exportDataController = export_data_controller.ExportDataController()
+exportHistoryController = export_history_controller.ExportHistoryController()
 
 def admin_required(f):
     @functools.wraps(f)
@@ -38,23 +40,28 @@ def admin_required(f):
                 return redirect(url_for('home_page'))
     return wrap
 
-# dashboard part
 
 @app.route('/dashboard')
 @login_required
 @admin_required
 def dashboard_page():
-
-    return render_template('dashboard/dashboard.html', current_user=current_user)
+    return redirect(url_for('dashboard_overview_page'))
+    # return render_template('dashboard/dashboard.html', current_user=current_user)
 
 #dashboard-overview
 @app.route('/dashboard/overview')
 @login_required
 def dashboard_overview_page():
-    return render_template('dashboard/overview.html')
+    total_speaker = len(speakerController.get_all_speaker())
+    total_recording = 0
+    tasks = taskController.get_all_task()
+    for taskItem in tasks:
+        total_recording = total_recording + len(taskItem.recordings)
+    total_audio = len(audioController.get_all_audio())
+
+    return render_template('dashboard/overview.html', total_speaker=total_speaker, total_recording=total_recording, total_audio=total_audio)
 
 # dashboard-user
-
 @app.route('/dashboard/users', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -76,6 +83,7 @@ def dashboard_user_page():
                 password=request.form.get('password'),
                 role=role
             )
+            return redirect(url_for('dashboard_user_page'))
         if request.form.get('edit_username'):
             if request.form.get('edit_is_active') != 'on':
                 edit_is_active = False
@@ -88,8 +96,7 @@ def dashboard_user_page():
                 new_user_obj=update_user,
                 id=int(request.form.get('edit_id'))
             )
-        print(request.form.getlist('edit_roles'))
-            
+            return redirect(url_for('dashboard_user_page'))
     return render_template('dashboard/registered_user.html', users=users, add_new_user_form=add_new_user_form, roles=roles, edit_user_form=edit_user_form)
 
 @app.route('/dashboard/user/delete/<int:id>', methods=['GET', 'DELETE'])
@@ -110,7 +117,7 @@ def dashboard_speaker_page():
     users = userController.get_all_user()
     if flask.request.method == 'POST':
         if request.form.get('user_id'):
-            user_to_create = userController.is_existed(data=int(request.form.get('user_id')))
+            user_to_create = userController.findUserById(data=int(request.form.get('user_id')))
             if user_to_create.speaker:
                 flash('This user had already registerd as a speaker')
             else:
@@ -149,7 +156,6 @@ def dashboard_delete_speaker(id):
     return redirect(url_for('dashboard_speaker_page'))
 
 # dashboard-record_configuration
-
 @app.route('/dashboard/record-configuration', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -181,7 +187,6 @@ def dashboard_delete_record_config(id):
     return redirect(url_for('dashboard_record_configuration_page'))
 
 # dashboard-audio
-
 @app.route('/dashboard/record-audio')
 @login_required
 @admin_required
@@ -194,21 +199,19 @@ def dashboard_record_audio():
 @login_required
 @admin_required
 def dashboard_delete_record_audio(id):
-    if audioController.is_existed(data=id):   
+    if audioController.findAudioById(data=id):   
         audioController.delete_audio(id=id)
     return redirect(url_for('dashboard_record_audio'))
 
 # dashboard-assign_task
-
 @app.route('/dashboard/assign-task', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def dashboard_assign_task():
     assign_task_form = AssignTaskForm()
+    edit_task_form = EditTaskForm()
     recordConfigs = recordConfigController.get_all_record_config()
     tasks = taskController.get_all_task()
-    if request.form.get('sample_file'):
-        print('Added new recording')
     if request.form.get('task_name'):
         taskController.create_task(
             name=request.form.get('task_name'),
@@ -217,14 +220,27 @@ def dashboard_assign_task():
             record_config_id=request.form.get('record_config')
         )
         return redirect(url_for('dashboard_assign_task'))
-    return render_template('dashboard/assign_task.html', tasks=tasks, assign_task_form=assign_task_form, recordConfigs=recordConfigs)
+    if edit_task_form.validate_on_submit():
+        update_id = request.form.get('edit_task_id')
+        update_task = task.Task(
+            name = request.form.get('edit_task_name'),
+            description = request.form.get('edit_task_description'),
+            record_config_id = request.form.get('edit_record_config'),
+            created_user_id = current_user.id
+        )
+        taskController.update_task(
+            new_task_obj=update_task,
+            id=update_id
+        )
+    return render_template('dashboard/assign_task.html', tasks=tasks, assign_task_form=assign_task_form, recordConfigs=recordConfigs, edit_task_form=edit_task_form)
 
 @app.route('/dashboard/assign-task/detail/<int:id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def dashboard_assign_task_detail(id):
     recording_form = RecordingForm()
-    seleted_task = taskController.is_existed(data=id)
+    edit_recording_form = EditRecordingForm()
+    seleted_task = taskController.findTaskById(data=id)
     if recording_form.validate_on_submit():
         file = recording_form.sample_file.data
         file.save(f"src/static/storage/audios/samples/{file.filename}")
@@ -234,13 +250,36 @@ def dashboard_assign_task_detail(id):
             sample_filename=file.filename,
             task_id=seleted_task.id
         )
-    return render_template('dashboard/assign_task_detail.html', seleted_task=seleted_task, recording_form=recording_form)
+    if edit_recording_form.validate_on_submit():
+        id = int(request.form.get('edit_id'))
+        recordingItem = recordingController.is_existed(data=id)
+        file = edit_recording_form.edit_sample_file.data
+        if file:
+            file.save(f"src/static/storage/audios/samples/{file.filename}")
+            filename = file.filename
+            os.remove(f"src/static/storage/audios/samples/{recordingItem.sample_filename}")
+        else:
+            filename = recordingItem.sample_filename
+
+        update_recording = recording.Recording(
+            transcript = request.form.get('edit_transcript'),
+            instruction = request.form.get('edit_instruction'),
+            sample_filename = filename,
+        )
+        recordingController.update_task_record(
+            new_task_record=update_recording,
+            id=id
+        )
+
+       
+    return render_template('dashboard/assign_task_detail.html',
+    seleted_task=seleted_task, recording_form=recording_form, edit_recording_form=edit_recording_form)
 
 @app.route('/dashboard/assign-task/delete/<int:id>')
 @login_required
 @admin_required
 def dashboard_delete_assign_task(id):
-    assign_task = taskController.is_existed(data=id)
+    assign_task = taskController.findTaskById(data=id)
     if assign_task:
         taskController.delete_taskr(id=id)
         return redirect(url_for('dashboard_assign_task'))
@@ -258,4 +297,103 @@ def dashboard_delete_recording(id, task_id):
     else:
         return None
 
+# dashboard-export-data
+@app.route('/dashboard/export-data', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def dashboard_export_data():
+    export_data_form = ExportDataForm()
+    recordConfigs = recordConfigController.get_all_record_config()
+    tasks = taskController.get_all_task()
+    export_histories = exportHistoryController.get_all_export_history()
+    audioList = []
+    audioList_final = []
+    audioList_final_name = []
+    speaker_info_list = []
+    speaker_info_list_csv =[]
+    if export_data_form.validate_on_submit():
+        audios = audioController.getAllAudioByTask(taskId=int(request.form.get('export_task_id')))
+        if request.form.get('export_record_config_id') != 'All record config':
+            for audioItem in audios:
+                audio_config = audioItem.recording.task.record_config_id
+                if audio_config == int(request.form.get('export_record_config_id')):
+                    audioList.append(audioItem)
+        else:
+            audioList = audios
+
+        if request.form.get('export_gender') != 'All Genders':
+            if request.form.get('export_gender') == 'Male':
+                for audioItem in audioList:
+                    if audioItem.speaker.gender == 'Male':
+                        audioList_final.append(audioItem)
+            else:
+                for audioItem in audioList:
+                    if audioItem.speaker.gender == 'Female':
+                        audioList_final.append(audioItem)
+        else:
+            audioList_final = audioList
+        
+        for audioItem_ in audioList_final:
+            audioList_final_name.append(audioItem_.filename)
+
+
+        for audioItem in audioList_final:
+            if len(speaker_info_list) > 0:
+                for speaker_info in speaker_info_list:
+                    if audioItem.speaker.id == speaker_info.id:
+                        break
+                    speaker_info_list.append(audioItem.speaker)
+            else:
+                speaker_info_list.append(audioItem.speaker)
+
+        for speakerItem in speaker_info_list:
+            speaker_info_csv = []
+            speaker_info_csv.append(speakerItem.first_name)
+            speaker_info_csv.append(speakerItem.last_name)
+            speaker_info_csv.append(speakerItem.gender)
+            speaker_info_csv.append(speakerItem.age)
+            speaker_info_csv.append(speakerItem.occupation)
+            speaker_info_csv.append(speakerItem.phone_number)
+            speaker_info_list_csv.append(speaker_info_csv)
+           
+        direcntory_name = exportDataController.create_csv_file(
+            directory_name= request.form.get('export_name'),
+            filename='speaker_info',
+            fieldList= ['Firstname', 'Lastname', 'Gender', 'Age', 'Occupation', 'Phone number'],
+            itemList= speaker_info_list_csv,
+        )
+
+        zip_name = exportDataController.create_zip_file(
+            zipname = f'{direcntory_name}.zip',
+            directory_name = direcntory_name,
+            csv_filename = 'speaker_info.csv',
+            filenames=audioList_final_name
+        )
+
+        file_to_send_path = f'static/exported/{direcntory_name}/{zip_name}'
+
+        @flask.after_this_request
+        def delete_file(res):
+            task = taskController.findTaskById(data=int(request.form.get('export_task_id')))
+            exportHistoryController.create_export_history(
+                task_name=task.name,
+                record_config_id=request.form.get('export_record_config_id'),
+                gender=request.form.get('export_gender'),
+                export_name=request.form.get('export_name'),
+                user_id=current_user.id
+            )
+            shutil.rmtree(f'src/static/exported/{direcntory_name}')
+            return res
+
+        return send_file(file_to_send_path, as_attachment=True)
+
+    return render_template('dashboard/export_data.html', export_data_form=export_data_form, tasks=tasks, recordConfigs=recordConfigs, export_histories=export_histories)
+
+@app.route('/dashboard/export-data/delete/<int:id>')
+def dashboard_delete_export_data(id):
+    req = exportHistoryController.delete_export_history(id=id)
+    if req:
+        return redirect(url_for('dashboard_export_data'))
+    else:
+        flash('History you attemped to delete is not exist.', 'danger')
 

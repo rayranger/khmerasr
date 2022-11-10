@@ -1,12 +1,11 @@
 from email.policy import default
 from src import db, bcrypt, login_manager
-from src.models.default_values import TODAY_DATE_TIME
+from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import backref
 
 @login_manager.user_loader
 def load_user(user_id):
-    # return User.query.filter_by(id=user_id)
     return User.query.get(int(user_id))
 
 
@@ -22,8 +21,8 @@ class User (db.Model, UserMixin):
     email = db.Column(db.String(), nullable=False)
     password_hash = db.Column(db.String(), nullable=False, default="password_disable")
     is_active = db.Column(db.Boolean(), nullable=False, default=True)
-    created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
-    updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
+    created_at = db.Column(db.String(), nullable=False, default=datetime.now().strftime("%d/%m/%Y_%H:%M:%S"))
+    updated_at = db.Column(db.String(), nullable=False, default=datetime.now().strftime("%d/%m/%Y_%H:%M:%S"))
 
     @property
     def password(self):
@@ -39,3 +38,4 @@ class User (db.Model, UserMixin):
     roles = db.relationship('Role', secondary=user_role, backref='users', lazy=True)
     speaker = db.relationship('Speaker', backref="user", lazy=True, uselist=False)
     tasks = db.relationship('Task', backref='created_by', lazy=True)
+    export_histories = db.relationship('ExportHistory', backref='user', lazy=True)

@@ -6,37 +6,30 @@ audioController = audio_controller.AudioController()
 
 class RecordingController():
     
+    # check by id
     def is_existed(self, data):
         req = recording.Recording.query.filter_by(id=data).first()
-        req_1 = recording.Recording.query.filter_by(sample_filename=data).first()
         if req:
             return req
-        elif req_1:
-            return req_1
-        else:
-            return None
+        return None
     
     def create_task_record(self, transcript, instruction, sample_filename, task_id):
-        if self.is_existed(data=sample_filename):
-            return None
-        else:
-            new_task_record = recording.Recording(
+        new_task_record = recording.Recording(
                 transcript=transcript,
                 instruction=instruction,
                 sample_filename=sample_filename,
                 task_id=task_id
             )
-            db.session.add(new_task_record)
-            db.session.commit()
-            return new_task_record
+        db.session.add(new_task_record)
+        db.session.commit()
+        return new_task_record
     
-    def update_task_record(self, new_task_record):
-        task_record = self.is_existed(data=new_task_record.id)
+    def update_task_record(self, new_task_record, id):
+        task_record = self.is_existed(data=id)
         if task_record:
             task_record.transcript = new_task_record.transcript
             task_record.instruction = new_task_record.instruction
             task_record.sample_filename = new_task_record.sample_filename
-            task_record.task_id = new_task_record.task_id 
             db.session.commit()
         else:
             return None
@@ -80,5 +73,12 @@ class RecordingController():
         for id in remaining_recordings_id:
             recording = self.is_existed(data=id)
             remaining_recordings.append(recording)
-        # print(remaining_recordings)
+            
         return remaining_recordings
+    
+    def get_all_recording_by_task(self, taskId):
+        recordings = recording.Recording.query.filter_by(task_id=taskId)
+        recordingList = []
+        for recordingItem in recordings:
+            recordingList.append(recordingItem)
+        return recordingList

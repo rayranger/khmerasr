@@ -87,7 +87,8 @@
                                     <div class="flex flex-row space-x-4 items-center text-sm">
                                         <div>
                                             <a href="/dashboard/assign-task/detail/{{task.id}}">
-                                                <div class="flex flex-row space-x-2 items-center px-3 py-1 hover:shadow-md font-bold">
+                                                <div
+                                                    class="flex flex-row space-x-2 items-center px-3 py-1 hover:shadow-md font-bold">
                                                     <div>
                                                         <p>Detail</p>
                                                     </div>
@@ -98,8 +99,10 @@
                                             </a>
                                         </div>
                                         <div>
-                                            <a href="">
-                                                <div class="flex flex-row space-x-2 items-center text-yellow-500 border border-yellow-500 px-2 py-1 rounded-md shadow-md">
+                                            <a type="button" data-bs-toggle="modal"
+                                                data-bs-target="#editTask{{task.id}}">
+                                                <div
+                                                    class="flex flex-row space-x-2 items-center text-yellow-500 border border-yellow-500 px-2 py-1 rounded-md shadow-md cursor-pointer">
                                                     <div>
                                                         <i class="fa-regular fa-pen-to-square"></i>
                                                     </div>
@@ -111,7 +114,8 @@
                                         </div>
                                         <div>
                                             <a href="/dashboard/assign-task/delete/{{task.id}}">
-                                                <div class="flex flex-row space-x-2 items-center text-red-500 border border-red-500 px-2 py-1 rounded-md shadow-md">
+                                                <div
+                                                    class="flex flex-row space-x-2 items-center text-red-500 border border-red-500 px-2 py-1 rounded-md shadow-md cursor-pointer">
                                                     <div>
                                                         <i class="fa-solid fa-trash"></i>
                                                     </div>
@@ -124,6 +128,135 @@
                                     </div>
                                 </td>
                             </tr>
+
+                            <!-- Edit task -->
+                            <div class="min-w-max">
+                                <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+                                    id="editTask{{task.id}}" tabindex="-1"
+                                    aria-labelledby="exampleModalCenteredScrollable" aria-modal="true" role="dialog">
+                                    <div
+                                        class="modal-dialog modal-dialog-centered modal-dialog-scrollable relative w-auto pointer-events-none">
+                                        <div
+                                            class="modal-content border-none shadow-lg relative flex flex-col min-w-max pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+                                            <div
+                                                class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                                                <h5 class="text-xl font-medium leading-normal text-gray-800"
+                                                    id="exampleModalCenteredScrollableLabel">
+                                                    <div class="flex flex-row space-x-2 items-center">
+                                                        <div>
+                                                            <i class="fa-regular fa-pen-to-square"></i>
+                                                        </div>
+                                                        <div>
+                                                            Edit task
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                                <button type="button"
+                                                    class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body relative p-4">
+                                                <form method="POST">
+                                                    {{edit_task_form.hidden_tag()}}
+                                                    <div class="flex flex-col space-y-5">
+                                                        <div class="flex flex-row space-x-5 items-center">
+                                                            <input type="text" value="{{task.id}}" name="edit_task_id" hidden>
+                                                            <!-- Input 1 -->
+                                                            <div
+                                                                class="flex flex-col space-y-3 border px-3 py-3 rounded-md">
+                                                                <div class="flex flex-row space-x-2 items-center">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-font"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p>Name</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <hr>
+                                                                </div>
+                                                                <div>
+                                                                    <input type="text" name="edit_task_name"
+                                                                        class="border rounded-md px-3 py-1"
+                                                                        value="{{task.name}}">
+                                                                </div>
+                                                            </div>
+                                                            <!-- Input 2 -->
+                                                            <div
+                                                                class="flex flex-col space-y-3 border px-3 py-3 rounded-md">
+                                                                <div class="flex flex-row space-x-2 items-center">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-gear"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p>Record config ID</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <hr>
+                                                                </div>
+                                                                <div class="w-full">
+                                                                    <select name="edit_record_config"
+                                                                        class="py-2 w-full rounded-md px-6 bg-white border">
+                                                                        <option value="">Choose a config</option>
+                                                                        {% for recordConfig in recordConfigs %}
+                                                                        {% if task.record_config_id == recordConfig.id %}
+                                                                        <option value="{{recordConfig.id}}" selected>
+                                                                            {{recordConfig.id}}
+                                                                        </option>
+                                                                        {% else %}
+                                                                        <option value="{{recordConfig.id}}">
+                                                                            {{recordConfig.id}}
+                                                                        </option>
+                                                                        {% endif %}
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Input 3 -->
+                                                        <div
+                                                            class="flex flex-col space-y-3 border px-3 py-3 rounded-md">
+                                                            <div class="flex flex-row space-x-2 items-center">
+                                                                <div>
+                                                                    <i class="fa-solid fa-paragraph"></i>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Description</p>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <hr>
+                                                            </div>
+                                                            <div class="w-full">
+                                                                <textarea name="edit_task_description" id="" cols="30"
+                                                                    rows="5"
+                                                                    class="border rounded-md py-1 px-3 w-full">{{task.description}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Btn -->
+                                                        <div class="self-end">
+                                                            <a href=""
+                                                                class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                                                {{edit_task_form.submit(class="uppercase")}}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div
+                                                class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                                                <button type="button"
+                                                    class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                                    data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {% endfor %}
                         </tbody>
                     </table>
@@ -224,7 +357,7 @@
                                 <div class="self-end">
                                     <a href=""
                                         class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                        {{assign_task_form.submit()}}
+                                        {{assign_task_form.submit(class="uppercase")}}
                                     </a>
                                 </div>
                             </div>

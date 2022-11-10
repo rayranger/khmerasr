@@ -1,12 +1,14 @@
 from src.models import record_config
+from datetime import datetime
 from src import db
 
 class RecordConfigController():
 
+    # Check by id
     def is_existed(self, data):
-        req_1 = record_config.RecordConfig.query.filter_by(id=data).first()
-        if req_1:
-            return req_1
+        req = record_config.RecordConfig.query.filter_by(id=data).first()
+        if req:
+            return req
         else:
             return None
     
@@ -30,6 +32,7 @@ class RecordConfigController():
             existing_record_config.channel = channel
             existing_record_config.sample_rate = sample_rate
             existing_record_config.filetype = filetype
+            existing_record_config.updated_at = datetime.now().strftime("%d/%m/%Y_%H:%M:%S")
             db.session.commit()
             return existing_record_config
         else:

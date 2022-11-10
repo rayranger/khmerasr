@@ -1,5 +1,5 @@
 from src import db
-from src.models.default_values import TODAY_DATE_TIME
+from datetime import datetime
 
 class Speaker(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -11,8 +11,8 @@ class Speaker(db.Model):
     phone_number = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.String(), nullable=False)
     updated_at = db.Column(db.String(), nullable=False)
-    created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
-    updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
+    created_at = db.Column(db.String(), nullable=False, default=datetime.now().strftime("%d/%m/%Y_%H:%M:%S"))
+    updated_at = db.Column(db.String(), nullable=False, default=datetime.now().strftime("%d/%m/%Y_%H:%M:%S"))
 
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     records = db.relationship('Audio', backref='speaker', lazy=True)

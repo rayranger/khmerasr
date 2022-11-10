@@ -3,18 +3,15 @@
     Sign in
 {% endblock %}
 {% block content %}
-    <div class="flex flex-row items-center justify-center w-screen h-screen">
-        <div class="sm:block hidden sm:w-1/2">
-            <img src="https://i.pinimg.com/564x/65/dc/a6/65dca69f78972935caf61580e7c17bd9.jpg" alt="" class="w-full">
-        </div>
-        <div class="sm:w-1/2">
-            <div class="sm:p-10 flex flex-col space-y-5 text-gray-700 max-w-min">
+    <div class="flex flex-row items-center justify-center w-screen min-h-screen p-10">
+        <div class="p-5 rounded-xl shadow-xl">
+            <div class="sm:p-10 flex flex-col space-y-5 text-gray-700 max-w-max">
                 <div class="text-3xl font-bold flex flex-row space-x-3 items-center">
                     <div>
                         <h1>Sign in</h1>
                     </div>
                     <div>
-                        <i class="fa-solid fa-circle-arrow-right"></i>
+                        <i class="fa-solid fa-right-to-bracket"></i>
                     </div>
                 </div>
                 <div class="flex flex-row space-x-3 items-center py-4">
@@ -22,18 +19,18 @@
                         <i class="fa-solid fa-bullhorn"></i>
                     </div>
                     <div>
-                        <p>Welcome! you are now on Khmer Voice ASR platform.</p>
+                        <p>Welcome! you are now on Khmer recording platform.</p>
                     </div> 
                 </div>
-                <div class="max-w-min">
-                    <form method="post">
+                <div class="w-full">
+                    <form method="post" class="w-full">
                         {{sign_in_form.hidden_tag()}}
-                        <div class="flex flex-col space-y-5 max-w-min">
-                            <div>
-                                {{sign_in_form.username(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2', placeholder='username')}}
+                        <div class="flex flex-col space-y-5 w-full justify-center">
+                            <div class="w-full">
+                                {{sign_in_form.username(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='username')}}
                             </div>
                             <div>
-                                {{sign_in_form.password(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2', placeholder='password')}}
+                                {{sign_in_form.password(class='border outline-none border-gray-700 text-gray-700 rounded-md px-4 py-2 w-full', placeholder='password')}}
                             </div>
                             <div>
                                 <hr>
@@ -47,27 +44,15 @@
                 <div class="font-bold text-center w-full">
                     <p>Or</p>
                 </div>
-                <div class="flex flex-row items-center justify-between">
-                    <div>
+                <div class="flex flex-row items-center justify-center w-full">
+                    <div class="w-full">
                         <a href="{{url_for('google_signin')}}">
-                            <div class="flex flex-row space-x-3 items-center py-2 px-4 text-white bg-red-500 rounded-md">
+                            <div class="flex flex-row space-x-3 items-center justify-center py-2 px-4 text-white bg-red-500 rounded-md w-full">
                                 <div>
                                     <i class="fa-brands fa-google"></i>
                                 </div>
                                 <div>
-                                    Google
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="">
-                            <div class="flex flex-row space-x-3 items-center py-2 px-4 text-white bg-blue-500 rounded-md">
-                                <div>
-                                    <i class="fa-brands fa-facebook"></i>
-                                </div>
-                                <div>
-                                    Facebook
+                                    Sign in with Google
                                 </div>
                             </div>
                         </a>

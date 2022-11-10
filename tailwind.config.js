@@ -3,7 +3,7 @@ module.exports = {
   content: [
     "./src/templates/**/*.html",
     "./src/static/src/**/*.js",
-    "./node_modules/tw-elements/dist/js/**/*.js"
+    './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
     extend: {},

@@ -1,3 +1,47 @@
-<div class="w-screen py-4 text-center bg-blue-900 text-white text-sm">
+<div class="w-screen py-4 text-center bg-blue-900 text-white text-sm hidden sm:block">
     Copyright  	&#169; 2022 Cambodia Academy of Digital Technology. All right reserved
+</div>
+<div class="block w-full p-3 py-5 bg-gray-100 shadow-inner text-sm sm:hidden text-gray-700">
+    <div class="flex flex-row space-x-5 items-center justify-evenly"> 
+        <div>
+            <a href="{{url_for('home_page')}}">
+                <div class="flex flex-row space-x-2 items-center" id="home">
+                    <div>
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+                    <div>
+                        Home
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="{{url_for('task_page')}}">
+                <div class="flex flex-row space-x-2 items-center" id="task">
+                    <div>
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <div>
+                        Task
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="flex flex-row space-x-2 items-center" id="about">
+            <div>
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <div>
+                About
+            </div>
+        </div>
+        <div class="flex flex-row space-x-2 items-center" id="contact">
+            <div>
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            <div>
+                Contact
+            </div>
+        </div>
+    </div>
 </div>

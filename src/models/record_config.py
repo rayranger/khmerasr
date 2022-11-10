@@ -1,5 +1,5 @@
 from src import db
-from src.models.default_values import TODAY_DATE_TIME
+from datetime import datetime
 
 class RecordConfig(db.Model):
     pass
@@ -9,7 +9,7 @@ class RecordConfig(db.Model):
     channel = db.Column(db.Integer(), nullable=False, default=1)
     sample_rate = db.Column(db.Integer(), nullable=False, default = 16000)
     filetype = db.Column(db.String(), nullable=False, default = 'wav')
-    created_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
-    updated_at = db.Column(db.String(), nullable=False, default=TODAY_DATE_TIME)
+    created_at = db.Column(db.String(), nullable=False, default=datetime.now().strftime("%d/%m/%Y_%H:%M:%S"))
+    updated_at = db.Column(db.String(), nullable=False, default=datetime.now().strftime("%d/%m/%Y_%H:%M:%S"))
     
     tasks = db.relationship('Task', backref='record_config', lazy=True)

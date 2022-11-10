@@ -1,8 +1,5 @@
-import email
-from unicodedata import name
 from src import db
-from src.models import audio, recording, role, speaker, user, record_config, task
-from datetime import date, datetime
+from src.models import recording, role, speaker, user, record_config, task
 
 # create role
 role_1 = role.Role(

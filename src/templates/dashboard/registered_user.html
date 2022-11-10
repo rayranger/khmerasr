@@ -271,7 +271,11 @@
                   <select name="role" id="role" class="p-3 bg-white border rounded-md">
                     <option value="0">Please select one role</option>
                     {%for role in roles%}
+                    {% if role.name == 'user' %}
+                    <option value="{{role.id}}" selected>{{role.name}}</option>
+                    {% else %}
                     <option value="{{role.id}}">{{role.name}}</option>
+                    {% endif %}
                     {%endfor%}
                   </select>
                 </div>

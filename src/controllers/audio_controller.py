@@ -1,11 +1,11 @@
 from this import d
 from src.models import audio
 from datetime import datetime
-import soundfile
 from src import db
 import os.path
 import os
 import pyaudio
+
 
 class AudioController():
 
@@ -27,7 +27,16 @@ class AudioController():
     def set_audio_filename(self, username):
         return f'{username}_{str(datetime.now().strftime("%d%m%Y_%H%M%S"))}.ogg'
 
+    # Check using filename
     def is_existed(self, data):
+        req = audio.Audio.query.filter_by(filename=data).first()
+        if req:
+            return req
+        else:
+            return None
+
+    # Check using id
+    def findAudioById(self, data):
         req = audio.Audio.query.filter_by(id=data).first()
         if req:
             return req
@@ -35,26 +44,20 @@ class AudioController():
             return None
 
     def create_audio(self, filename, recording_id, speaker_id):
-        file_path = os.path.join(self.AUDIO_DIR, filename)
-        print(file_path)
         if self.is_existed(data=filename):
             return None
         else:
-            # data, sample_rate = soundfile.read(file_path)
             new_audio = audio.Audio(
                 filename=filename,
-                # sample_rate = sample_rate,
                 speaker_id = speaker_id,
                 recording_id=recording_id
             )
-            # print(new_audio)
             db.session.add(new_audio)
             db.session.commit()
             return new_audio
-            return None
     
     def delete_audio(self, id):
-        audioFile = self.is_existed(data=id)
+        audioFile = self.findAudioById(data=id)
         if audioFile:
             db.session.delete(audioFile)
             db.session.commit()
@@ -75,6 +78,17 @@ class AudioController():
         audioList = []
         for audioItem in audios:
             audioList.append(audioItem)
+        return audioList
+    
+    def getAllAudioByTask(self, taskId):
+        from src.controllers import recording_controller
+        recordingController = recording_controller.RecordingController()
+        recordings = recordingController.get_all_recording_by_task(taskId=taskId)
+        audioList = []
+        for recordingItem in recordings:
+            audios = audio.Audio.query.filter_by(recording_id=recordingItem.id)
+            for audioItem in audios:
+                audioList.append(audioItem)
         return audioList
         
         

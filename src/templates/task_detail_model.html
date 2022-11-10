@@ -1,16 +1,16 @@
-<div class="px-10 w-full" id="task_detail_model">
+<div class="sm:px-10 px-5 w-full" id="task_detail_model">
     <div class="flex flex-col space-y-10">
         <!-- Title here -->
-        <div class="flex flex-col space-y-3">
-            <div class="text-xl">
+        <div class="flex flex-col sm:space-y-3 space-y-1">
+            <div class="sm:text-xl text-sm">
                 <p>{{selected_task.name}}</p>
             </div>
             <div>
                 <div class="flex flex-row items-center justify-between">
-                    <div class="text-3xl font-bold">
+                    <div class="sm:text-3xl text-xl font-bold">
                         <p>Recording {{recording.id}}</p>
                     </div>
-                    <div class="flex flex-row space-x-3 items-center px-3 py-2 border border-blue-500 rounded-md">
+                    <div class="flex flex-row space-x-3 items-center sm:px-3 sm:py-2 p-2 border border-blue-500 rounded-md sm:text-base text-sm">
                         <div>
                             <p>Completed</p>
                         </div>
@@ -27,7 +27,7 @@
         <!-- Info here -->
         <div class="flex flex-col">
             <div class="bg-gray-700 text-white py-2 px-6 rounded-tl-md rounded-tr-md max-w-max">
-                <div class="flex flex-row space-x-3 uppercase">
+                <div class="flex flex-row space-x-3 uppercase sm:text-base text-sm">
                     <div>
                         <i class="fa-solid fa-circle-info"></i>
                     </div>
@@ -37,18 +37,18 @@
                 </div>
             </div>
             <div class="bg-gray-300 rounded-md rounded-tl-none p-3">
-                <div class="flex flex-row item-center justify-center space-x-5 border border-gray-700 border-dashed rounded-md p-3">
-                    <div class="w-1/2">
+                <div class="sm:text-base text-sm flex sm:flex-row item-center justify-center sm:space-x-5 sm:space-y-0 flex-col space-y-5 space-x-0 border border-gray-700 border-dashed rounded-md p-3">
+                    <div class="sm:w-1/2 w-full">
                         <div class="flex flex-col space-y-3 w-full items-start">
                             <div class="font-bold uppercase">
                                 instruction
                             </div>
-                            <div class="self-center px-10">
+                            <div class="sm:self-center self-start sm:px-10 px-5 text-justify">
                                 {{recording.instruction}}
                             </div>
                         </div>
                     </div>
-                    <div class="w-1/2 border-l pl-5 border-gray-700 border-dotted">
+                    <div class="sm:w-1/2 w-full sm:border-l sm:pl-5 border-gray-700 border-dotted">
                         <div class="flex flex-col space-y-3 w-full items-start">
                             <div class="font-bold uppercase">
                                 <div class="flex flex-row space-x-3 items-center">
@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="self-center px-10">
+                            <div class="sm:self-center self-start sm:px-10 px-5 text-justify">
                                 {{recording.transcript}}
                             </div>
                         </div>
@@ -70,3 +70,8 @@
         </div>
     </div>
 </div>
+
+<script>
+    chunks = []
+    chunks_phone = []
+</script>

@@ -1,8 +1,10 @@
 from src import db
 from src.models import speaker, user, default_values
+from datetime import datetime
 
 class SpeakerController():
 
+    # Check by id
     def is_existed(self, data):
         req = speaker.Speaker.query.filter_by(id=data).first()
         if req:
@@ -33,7 +35,7 @@ class SpeakerController():
             speaker_obj.age = new_speaker_obj.age
             speaker_obj.occupation = new_speaker_obj.occupation
             speaker_obj.phone_number = new_speaker_obj.phone_number
-            speaker_obj.updated_at = default_values.TODAY_DATE_TIME
+            speaker_obj.updated_at = datetime.now().strftime("%d/%m/%Y_%H:%M:%S")
             db.session.commit()
             return speaker_obj
         else:

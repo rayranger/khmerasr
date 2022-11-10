@@ -197,15 +197,15 @@
                                             {{recording.instruction}}
                                         </td>
                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
-                                            <img src="" alt="">
+                                            <audio src="{{url_for('static', filename='storage/audios/samples/'+recording.sample_filename)}}" controls class=" rounded-md"></audio>
                                         </td>
                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
-                                            130
+                                            ###
                                         </td>
                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
                                             <div class="flex flex-row space-x-4 items-center text-sm">
                                                 <div>
-                                                    <a href="">
+                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#editRecording{{recording.id}}" class=" cursor-pointer">
                                                         <div
                                                             class="flex flex-row space-x-2 items-center text-yellow-500 border border-yellow-500 px-2 py-1 rounded-md shadow-md">
                                                             <div>
@@ -233,6 +233,116 @@
                                             </div>
                                         </td>
                                     </tr>
+
+                                    <!-- Edit recording -->
+                                    <div class="min-w-max text-gray-700">
+                                        <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+                                            id="editRecording{{recording.id}}" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none min-w-max">
+                                                <div
+                                                    class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+                                                    <div
+                                                        class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                                                        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalScrollableLabel">
+                                                            <div class="flex flex-row space-x-2 items-center">
+                                                                <div>
+                                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                                </div>
+                                                                <div>
+                                                                    Edit recording {{recording.id}}
+                                                                </div>
+                                                            </div>
+                                                        </h5>
+                                                        <button type="button"
+                                                            class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body relative p-4">
+                                                        <form method="POST" enctype="multipart/form-data">
+                                                            {{edit_recording_form.hidden_tag()}}
+                                                            <input type="text" name="edit_id" value="{{recording.id}}" hidden>
+                                                            <div class="flex flex-col space-y-5 items-center justify-center">
+                                                                <div class="flex flex-row space-x-5 items-center justify-center">
+                                                                    <!-- Input1 -->
+                                                                    <div class="flex flex-col space-y-3 items-start border p-3 rounded-md">
+                                                                        <div class="flex flex-row space-x-2 items-center">
+                                                                            <div>
+                                                                                <i class="fa-solid fa-font"></i>
+                                                                            </div>
+                                                                            <div>
+                                                                                Transcript
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="w-full">
+                                                                            <hr>
+                                                                        </div>
+                                                                        <div>
+                                                                            <textarea name="edit_transcript" id="edit_transcript" rows="1"
+                                                                            class="w-full border rounded-md p-3" required>{{recording.transcript}}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Input2 -->
+                                                                    <div class="flex flex-col space-y-3 items-start border p-3 rounded-md">
+                                                                        <div class="flex flex-row space-x-2 items-center">
+                                                                            <div>
+                                                                                <i class="fa-solid fa-compact-disc"></i>
+                                                                            </div>
+                                                                            <div>
+                                                                                Sample audio
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="w-full">
+                                                                            <hr>
+                                                                        </div>
+                                                                        <div>
+                                                                            <audio src="{{url_for('static', filename='storage/audios/samples/'+recording.sample_filename)}}" controls></audio>
+                                                                        </div>
+                                                                        <div>
+                                                                            {{edit_recording_form.edit_sample_file()}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Input 3 -->
+                                                                <div class="flex flex-col space-y-3 items-start border p-3 rounded-md w-full">
+                                                                    <div class="flex flex-row space-x-2 items-center">
+                                                                        <div>
+                                                                            <i class="fa-solid fa-book"></i>
+                                                                        </div>
+                                                                        <div>
+                                                                            Instruction
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="w-full">
+                                                                        <hr>
+                                                                    </div>
+                                                                    <div class="w-full">
+                                                                        <textarea name="edit_instruction" id="edit_instruction" rows="5"
+                                                                            class="w-full border rounded-md p-3" required>{{recording.instruction}}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Btn -->
+                                                                <div class="self-end">
+                                                                    <button type="button"
+                                                                        class="">
+                                                                        {{edit_recording_form.submit(class='uppercase inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight rounded shadow-md cursor-pointer hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1')}}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div
+                                                        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                                                        <button type="button"
+                                                            class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                                            data-bs-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -245,7 +355,8 @@
     </div>
 </div>
 
-<div class="min-w-max">
+<!-- Add new recording -->
+<div class="min-w-max text-gray-700">
     <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
         id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none min-w-max">
@@ -286,8 +397,8 @@
                                         <hr>
                                     </div>
                                     <div>
-                                        <input type="text" name="transcript" id="transcript"
-                                            class="border py-2 px-4 rounded-md outline-blue-500" required>
+                                        <textarea name="transcript" id="transcript" rows="1"
+                                        class="w-full border rounded-md p-3" required></textarea>
                                     </div>
                                 </div>
                                 <!-- Input2 -->
@@ -323,7 +434,7 @@
                                 </div>
                                 <div class="w-full">
                                     <textarea name="instruction" id="instruction" rows="5"
-                                        class="w-full border rounded-md" required></textarea>
+                                        class="w-full border rounded-md p-3" required></textarea>
                                 </div>
                             </div>
                             <!-- Btn -->
