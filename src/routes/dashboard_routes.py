@@ -112,6 +112,7 @@ def dashboard_delete_user(id):
 @admin_required
 def dashboard_speaker_page():
     speakers = speakerController.get_all_speaker()
+    # speakers_pag = speakerController.get_speakers_pag(page_num=1)
     add_new_speaker_form = SpeakerRegisterForm()
     edit_speaker_form = EditSpeakerForm()
     users = userController.get_all_user()

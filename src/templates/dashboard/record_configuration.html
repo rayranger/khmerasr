@@ -153,15 +153,18 @@
                                                                         <i class="fa-solid fa-wave-square"></i>
                                                                     </div>
                                                                     <div>
-                                                                        <p>Sample rate</p>
+                                                                        <p>Sample rate (Hz)</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="w-full border">
                                                                     <hr>
                                                                 </div>
                                                                 <div>
-                                                                    <input type="text" name="edit_sample_rate" id="edit_sample_rate"
-                                                                      class="outline-none border p-3 rounded-md" placeholder="sample rate" value="{{recordConfig.sample_rate}}">
+                                                                    <input type="text" name="edit_sample_rate"
+                                                                        id="edit_sample_rate"
+                                                                        class="outline-none border p-3 rounded-md"
+                                                                        placeholder="sample rate"
+                                                                        value="{{recordConfig.sample_rate}}">
                                                                 </div>
                                                             </div>
                                                             <!-- Input 2 -->
@@ -173,15 +176,18 @@
                                                                         <i class="fa-brands fa-buffer"></i>
                                                                     </div>
                                                                     <div>
-                                                                        <p>Number of sample</p>
+                                                                        <p>Sample Size (Bit/sample)</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="w-full border">
                                                                     <hr>
                                                                 </div>
                                                                 <div>
-                                                                    <input type="text" name="edit_number_of_sample" id="edit_number_of_sample"
-                                                                      class="outline-none border p-3 rounded-md" placeholder="number of sample" value="{{recordConfig.number_of_sample}}">
+                                                                    <input type="text" name="edit_number_of_sample"
+                                                                        id="edit_number_of_sample"
+                                                                        class="outline-none border p-3 rounded-md"
+                                                                        placeholder="number of sample"
+                                                                        value="{{recordConfig.number_of_sample}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -250,7 +256,7 @@
                                                                         <i class="fa-regular fa-clock"></i>
                                                                     </div>
                                                                     <div>
-                                                                        Max Duration
+                                                                        Max Duration (s)
                                                                     </div>
                                                                 </div>
                                                                 <div class="w-full border">
@@ -320,23 +326,21 @@
                                                                 {% endif %}
                                                             </div>
                                                         </div>
-                                                        <div class="self-end">
+                                                        <div class="self-end flex flex-row space-x-5">
                                                             <button type="button"
                                                                 class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
-                                                                {{record_config_form.submit(class='cursor-pointer uppercase')}}
+                                                                {{record_config_form.submit(class='cursor-pointer
+                                                                uppercase')}}
+                                                            </button>
+                                                            <button type="button"
+                                                                class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                                                data-bs-dismiss="modal">
+                                                                Close
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
-                                        </div>
-                                        <div
-                                            class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                                            <button type="button"
-                                                class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-                                                data-bs-dismiss="modal">
-                                                Close
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -389,7 +393,7 @@
                                             <p>Sample rate</p>
                                         </div>
                                         <div class="px-3 bg-blue-500 text-white rounded-md">
-                                            <p id="sample_rate_value">10</p>
+                                            <p><span id="sample_rate_value">10</span> Hz </p>
                                         </div>
                                     </div>
                                     <div class="w-full border">
@@ -405,7 +409,7 @@
                                         p-0
                                         bg-transparent
                                         focus:outline-none focus:ring-0 focus:shadow-none
-                                      " id="sample_rate_input" step="100" min="32000" max="48000"
+                                      " id="sample_rate_input" step="8000" min="32000" max="48000"
                                                 name="sample_rate_input" />
                                         </div>
                                     </div>
@@ -417,10 +421,10 @@
                                             <i class="fa-brands fa-buffer"></i>
                                         </div>
                                         <div>
-                                            <p>Number of sample</p>
+                                            <p>Sample Size</p>
                                         </div>
                                         <div class="px-3 bg-blue-500 text-white rounded-md">
-                                            <p id="number_of_sample_value">10</p>
+                                            <p><span id="number_of_sample_value">10</span> Bit / Sample </p>
                                         </div>
                                     </div>
                                     <div class="w-full border">
@@ -479,7 +483,7 @@
                                             <i class="fa-regular fa-clock"></i>
                                         </div>
                                         <div>
-                                            Max Duration
+                                            Max Duration (s)
                                         </div>
                                     </div>
                                     <div class="w-full border">
@@ -520,23 +524,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full self-end">
+                            <div class="self-end flex flex-row space-x-5">
                                 <button type="button"
                                     class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
                                     {{record_config_form.submit(class='cursor-pointer')}}
+                                </button>
+                                <button type="button"
+                                    class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                    data-bs-dismiss="modal">
+                                    Close
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
-            <div
-                class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                <button type="button"
-                    class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-                    data-bs-dismiss="modal">
-                    Close
-                </button>
             </div>
         </div>
     </div>

@@ -18,6 +18,19 @@ Task Detail
                 </div>
             </a>
         </div>
+        <div class="flex flex-row space-x-3 items-center text-xl">
+            <div>
+                Manual select recording: 
+            </div>
+            <div>
+                <select class="p-3 rounded-md bg-white border" name="browse_recording_id" id="browse_recording_id">
+                    <option value="0" selected>Select any recording here</option>
+                    {% for recording in selected_task.recordings %}
+                    <option value="{{recording.id}}">Recording ID {{recording.id}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
         <div class="sm:px-10 px-5 w-full" id="task_detail_model">
             <div class="flex flex-col space-y-10">
                 <!-- Title here -->
@@ -29,15 +42,6 @@ Task Detail
                         <div class="flex flex-row items-center justify-between">
                             <div class="sm:text-3xl text-xl font-bold">
                                 <p>Recording {{recording.id}}</p>
-                            </div>
-                            <div
-                                class="flex flex-row space-x-3 items-center sm:px-3 sm:py-2 p-2 border border-blue-500 rounded-md sm:text-base text-sm">
-                                <div>
-                                    <p>Completed</p>
-                                </div>
-                                <div class="px-3 text-white bg-blue-500 rounded-md">
-                                    <p>1 / 10</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,6 +200,8 @@ Task Detail
     mic_btn = document.getElementById('mic_btn')
 
     mic_btn_phone = document.getElementById('mic_btn_phone')
+
+    browse_recording_id = document.getElementById('browse_recording_id')
 
     flag = 0
 
@@ -370,6 +376,25 @@ Task Detail
             })
         })
         audioFile = new Blob()
+    })
+
+    browse_recording_id.addEventListener('input', ()=>{
+        task_id = '{{selected_task.id}}'
+        recording_id = browse_recording_id.value
+        if (browse_recording_id.value != 0){
+            $.ajax({
+                url: '/change-recording',
+                data: { recording_id: recording_id, task_id: task_id },
+                dataType: 'json',
+                async: true,
+                processData: true,
+                type: 'GET',
+                success: (result) => {
+                    $(task_detail_model).replaceWith(result)
+                    console.log(result)
+                }
+            })
+        }
     })
 
 

@@ -31,7 +31,7 @@ def signin_page():
     if attemped_user:
         for user_role in attemped_user.roles:
             if user_role.name == 'admin': 
-                return render_template('dashboard/overview.html')
+                return redirect(url_for('dashboard_overview_page'))
         return redirect(url_for('task_page'))
     if current_user.is_authenticated:
         return redirect(url_for('home_page'))
@@ -52,7 +52,7 @@ def callback():
 @app.route('/sign-out')
 def signout_page():
     authController.sign_out()
-    return redirect(url_for('home_page'))
+    return redirect(url_for('signin_page'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
@@ -159,3 +159,11 @@ def record_page():
         return jsonify(render_template('task_detail_model.html', recording=remaining_recordings[1], selected_task=selected_task))
     else: 
         return jsonify(render_template('completed.html'))
+
+@app.route('/change-recording', methods=['GET'])
+def change_recording():
+    recording_id = request.args.get('recording_id')
+    task_id = request.args.get('task_id')
+    selected_task = taskController.findTaskById(task_id)
+    selected_recording = recordingController.is_existed(data=recording_id)
+    return jsonify(render_template('task_detail_model.html', recording=selected_recording, selected_task=selected_task))

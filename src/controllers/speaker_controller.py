@@ -54,3 +54,7 @@ class SpeakerController():
         for speaker_obj in speakers:
             speakerList.append(speaker_obj)
         return speakerList
+    
+    def get_speakers_pag(self, page_num):
+        speakers_pag = speaker.Speaker.query.paginate(per_page=2, page=page_num, error_out=True)
+        return speakers_pag

@@ -48,17 +48,15 @@ Task
                                 Completed
                             </div>
                             {% endif %}
-                            <div class="drop-shadow-md font-bold text-gray-700 border py-1 px-4 shadow-md" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{task.id}}"
-                            aria-expanded="true" aria-controls="collapseOne">
-
-                                <p>Detail</p>
-                            </div>
                             <div class="self-end py-4 px-5">
                                 <a href="/task-detail/{{task.id}}">
                                     <div class=" bg-pink-900 py-1 px-2 text-white rounded-sm min-w-max">
                                         Start task or Continue
                                     </div>
                                 </a>
+                            </div>
+                            <div class="text-gray-700">
+                                <span class="font-bold underline">Description</span> {{task.description}}
                             </div>
                         </div>
                     </button>
@@ -84,5 +82,4 @@ Task
         </div>
     </div>
 </div>
-
 {% endblock %}

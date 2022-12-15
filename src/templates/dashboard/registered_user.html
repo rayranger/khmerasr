@@ -196,23 +196,20 @@
                                 class="outline-none border p-3 rounded-md" placeholder="email" value="{{user.email}}">
                             </div>
                           </div>
-                          <div class="self-end uppercase">
+                          <div class="self-end uppercase flex flex-row space-x-5">
                             <button type="button"
                               class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
                               {{edit_user_form.submit(class='cursor-pointer uppercase')}}
+                            </button>
+                            <button type="button"
+                              class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                              data-bs-dismiss="modal">
+                              Close
                             </button>
                           </div>
                         </div>
                       </form>
                     </div>
-                  </div>
-                  <div
-                    class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                    <button type="button"
-                      class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-                      data-bs-dismiss="modal">
-                      Close
-                    </button>
                   </div>
                 </div>
               </div>
@@ -268,7 +265,7 @@
                 </div>
                 <!-- role -->
                 <div>
-                  <select name="role" id="role" class="p-3 bg-white border rounded-md">
+                  <select name="role" id="user_role" class="p-3 bg-white border rounded-md">
                     <option value="0">Please select one role</option>
                     {%for role in roles%}
                     {% if role.name == 'user' %}
@@ -304,23 +301,76 @@
                     class="outline-none border p-3 rounded-md" placeholder="confirm password">
                 </div>
               </div>
-              <div class="self-end uppercase">
+              <div class="flex flex-col space-y-5 w-full items-start" id="speaker_info">
+                <div class="font-bold text-xl px-6">
+                  <p>Spaker Info</p>
+                </div>
+                <div class="flex flex-row space-x-3 items-center">
+                  <!-- firstname -->
+                  <div>
+                    <input type="text" name="firstname" id="edit_firstname" class="outline-none border p-3 rounded-md"
+                      placeholder="firstname">
+                  </div>
+                  <!-- lastname -->
+                  <div>
+                    <input type="text" name="lastname" id="edit_lastname" class="outline-none border p-3 rounded-md"
+                      placeholder="lastname">
+                  </div>
+                </div>
+                <div class="flex flex-row space-x-3 items-center w-full">
+                  <!-- Gender -->
+                  <div>
+                    <fieldset class="border p-4 py-1 rounded-md">
+                      <legend>Gender</legend>
+                      <div class="flex justify-around w-full">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                            type="radio" name="gender" id="gender" value="Male">
+                          <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                            type="radio" name="gender" id="gender" value="Female">
+                          <label class="form-check-label inline-block text-gray-800" for="inlineRadio20">Female</label>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <!-- Age -->
+                  <div>
+                    <input type="number" name="age" id="age" class="outline-none border p-3 rounded-md"
+                      placeholder="age">
+                  </div>
+                </div>
+                <div class="flex flex-row space-x-3 items-end">
+                  <!-- occupation -->
+                  <div>
+                    <input type="text" name="occupation" id="occupation" class="outline-none border p-3 rounded-md"
+                      placeholder="occupation">
+                  </div>
+                  <!-- Phone_number -->
+                  <div>
+                    <input type="text" name="phone_number" id="phone_number" class="outline-none border p-3 rounded-md"
+                      placeholder="phone_number">
+                  </div>
+                </div>
+              </div>
+              <div class="self-end uppercase flex flex-row space-x-5">
                 <button type="button"
                   class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
                   {{add_new_user_form.submit(class='cursor-pointer uppercase')}}
+                </button>
+                <button type="button"
+                  class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                  data-bs-dismiss="modal">
+                  Close
                 </button>
               </div>
             </div>
           </form>
         </div>
-      </div>
-      <div
-        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-        <button type="button"
-          class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-          data-bs-dismiss="modal">
-          Close
-        </button>
       </div>
     </div>
   </div>
@@ -328,5 +378,16 @@
 <script>
   user_management = document.getElementById('user_management')
   user_management.classList.add('text-blue-500')
+  role = document.getElementById('user_role')
+  speaker_info = document.getElementById('speaker_info')
+  role.addEventListener('change', () => {
+    if (role.value == 2) {
+      speaker_info.classList.add('block')
+      speaker_info.classList.remove('hidden')
+    } else {
+      speaker_info.classList.add('hidden')
+      speaker_info.classList.remove('block')
+    }
+  })
 </script>
 {% endblock %}

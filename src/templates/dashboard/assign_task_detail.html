@@ -9,7 +9,8 @@
             <!-- Back to all task -->
             <div class="">
                 <a href="{{url_for('dashboard_assign_task')}}" class="relative">
-                    <div class="max-w-max flex flex-row space-x-2 items-center text-blue-500 shadow-md py-2 px-3 relative">
+                    <div
+                        class="max-w-max flex flex-row space-x-2 items-center text-blue-500 shadow-md py-2 px-3 relative">
                         <div>
                             <i class="fa-solid fa-circle-chevron-left"></i>
                         </div>
@@ -23,30 +24,6 @@
             <div class="flex flex-row space-x-5 items-center">
                 <div class="font-bold text-3xl">
                     <p># {{seleted_task.name}}</p>
-                </div>
-                <div>
-                    <a href="">
-                        <div class="flex flex-row space-x-2 items-center text-yellow-500 ">
-                            <div>
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-                            <div>
-                                Edit
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <div class="flex flex-row space-x-2 items-center text-red-500 ">
-                            <div>
-                                <i class="fa-solid fa-trash"></i>
-                            </div>
-                            <div>
-                                Delete
-                            </div>
-                        </div>
-                    </a>
                 </div>
             </div>
             <!-- End title -->
@@ -178,9 +155,6 @@
                                             Sample audio
                                         </th>
                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                            Total recorder
-                                        </th>
-                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                             Action
                                         </th>
                                     </tr>
@@ -197,15 +171,16 @@
                                             {{recording.instruction}}
                                         </td>
                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
-                                            <audio src="{{url_for('static', filename='storage/audios/samples/'+recording.sample_filename)}}" controls class=" rounded-md"></audio>
-                                        </td>
-                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
-                                            ###
+                                            <audio
+                                                src="{{url_for('static', filename='storage/audios/samples/'+recording.sample_filename)}}"
+                                                controls class=" rounded-md"></audio>
                                         </td>
                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
                                             <div class="flex flex-row space-x-4 items-center text-sm">
                                                 <div>
-                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#editRecording{{recording.id}}" class=" cursor-pointer">
+                                                    <a type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#editRecording{{recording.id}}"
+                                                        class=" cursor-pointer">
                                                         <div
                                                             class="flex flex-row space-x-2 items-center text-yellow-500 border border-yellow-500 px-2 py-1 rounded-md shadow-md">
                                                             <div>
@@ -218,7 +193,8 @@
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <a href="/dashboard/recording/delete/{{recording.id}}/{{seleted_task.id}}">
+                                                    <a
+                                                        href="/dashboard/recording/delete/{{recording.id}}/{{seleted_task.id}}">
                                                         <div
                                                             class="flex flex-row space-x-2 items-center text-red-500 border border-red-500 px-2 py-1 rounded-md shadow-md">
                                                             <div>
@@ -237,13 +213,16 @@
                                     <!-- Edit recording -->
                                     <div class="min-w-max text-gray-700">
                                         <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-                                            id="editRecording{{recording.id}}" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
-                                            <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none min-w-max">
+                                            id="editRecording{{recording.id}}" tabindex="-1"
+                                            aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
+                                            <div
+                                                class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none min-w-max">
                                                 <div
                                                     class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
                                                     <div
                                                         class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                                                        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalScrollableLabel">
+                                                        <h5 class="text-xl font-medium leading-normal text-gray-800"
+                                                            id="exampleModalScrollableLabel">
                                                             <div class="flex flex-row space-x-2 items-center">
                                                                 <div>
                                                                     <i class="fa-regular fa-pen-to-square"></i>
@@ -260,12 +239,17 @@
                                                     <div class="modal-body relative p-4">
                                                         <form method="POST" enctype="multipart/form-data">
                                                             {{edit_recording_form.hidden_tag()}}
-                                                            <input type="text" name="edit_id" value="{{recording.id}}" hidden>
-                                                            <div class="flex flex-col space-y-5 items-center justify-center">
-                                                                <div class="flex flex-row space-x-5 items-center justify-center">
+                                                            <input type="text" name="edit_id" value="{{recording.id}}"
+                                                                hidden>
+                                                            <div
+                                                                class="flex flex-col space-y-5 items-center justify-center">
+                                                                <div
+                                                                    class="flex flex-row space-x-5 items-center justify-center">
                                                                     <!-- Input1 -->
-                                                                    <div class="flex flex-col space-y-3 items-start border p-3 rounded-md">
-                                                                        <div class="flex flex-row space-x-2 items-center">
+                                                                    <div
+                                                                        class="flex flex-col space-y-3 items-start border p-3 rounded-md">
+                                                                        <div
+                                                                            class="flex flex-row space-x-2 items-center">
                                                                             <div>
                                                                                 <i class="fa-solid fa-font"></i>
                                                                             </div>
@@ -277,13 +261,17 @@
                                                                             <hr>
                                                                         </div>
                                                                         <div>
-                                                                            <textarea name="edit_transcript" id="edit_transcript" rows="1"
-                                                                            class="w-full border rounded-md p-3" required>{{recording.transcript}}</textarea>
+                                                                            <textarea name="edit_transcript"
+                                                                                id="edit_transcript" rows="1"
+                                                                                class="w-full border rounded-md p-3"
+                                                                                required>{{recording.transcript}}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <!-- Input2 -->
-                                                                    <div class="flex flex-col space-y-3 items-start border p-3 rounded-md">
-                                                                        <div class="flex flex-row space-x-2 items-center">
+                                                                    <div
+                                                                        class="flex flex-col space-y-3 items-start border p-3 rounded-md">
+                                                                        <div
+                                                                            class="flex flex-row space-x-2 items-center">
                                                                             <div>
                                                                                 <i class="fa-solid fa-compact-disc"></i>
                                                                             </div>
@@ -295,7 +283,9 @@
                                                                             <hr>
                                                                         </div>
                                                                         <div>
-                                                                            <audio src="{{url_for('static', filename='storage/audios/samples/'+recording.sample_filename)}}" controls></audio>
+                                                                            <audio
+                                                                                src="{{url_for('static', filename='storage/audios/samples/'+recording.sample_filename)}}"
+                                                                                controls></audio>
                                                                         </div>
                                                                         <div>
                                                                             {{edit_recording_form.edit_sample_file()}}
@@ -303,7 +293,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <!-- Input 3 -->
-                                                                <div class="flex flex-col space-y-3 items-start border p-3 rounded-md w-full">
+                                                                <div
+                                                                    class="flex flex-col space-y-3 items-start border p-3 rounded-md w-full">
                                                                     <div class="flex flex-row space-x-2 items-center">
                                                                         <div>
                                                                             <i class="fa-solid fa-book"></i>
@@ -316,27 +307,32 @@
                                                                         <hr>
                                                                     </div>
                                                                     <div class="w-full">
-                                                                        <textarea name="edit_instruction" id="edit_instruction" rows="5"
-                                                                            class="w-full border rounded-md p-3" required>{{recording.instruction}}</textarea>
+                                                                        <textarea name="edit_instruction"
+                                                                            id="edit_instruction" rows="5"
+                                                                            class="w-full border rounded-md p-3"
+                                                                            required>{{recording.instruction}}</textarea>
                                                                     </div>
                                                                 </div>
                                                                 <!-- Btn -->
-                                                                <div class="self-end">
+                                                                <div class="self-end flex flex-row space-x-5">
+                                                                    <button type="button" class="">
+                                                                        {{edit_recording_form.submit(class='uppercase
+                                                                        inline-block px-6 py-2.5 bg-blue-600 text-white
+                                                                        font-medium text-xs leading-tight rounded
+                                                                        shadow-md cursor-pointer hover:bg-blue-700
+                                                                        hover:shadow-lg focus:bg-blue-700
+                                                                        focus:shadow-lg focus:outline-none focus:ring-0
+                                                                        active:bg-blue-800 active:shadow-lg transition
+                                                                        duration-150 ease-in-out ml-1')}}
+                                                                    </button>
                                                                     <button type="button"
-                                                                        class="">
-                                                                        {{edit_recording_form.submit(class='uppercase inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight rounded shadow-md cursor-pointer hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1')}}
+                                                                        class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                                                        data-bs-dismiss="modal">
+                                                                        Close
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                    </div>
-                                                    <div
-                                                        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                                                        <button type="button"
-                                                            class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-                                                            data-bs-dismiss="modal">
-                                                            Close
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -398,7 +394,7 @@
                                     </div>
                                     <div>
                                         <textarea name="transcript" id="transcript" rows="1"
-                                        class="w-full border rounded-md p-3" required></textarea>
+                                            class="w-full border rounded-md p-3" required></textarea>
                                     </div>
                                 </div>
                                 <!-- Input2 -->
@@ -438,22 +434,19 @@
                                 </div>
                             </div>
                             <!-- Btn -->
-                            <div class="self-end">
+                            <div class="self-end flex flex-row space-x-5">
                                 <button type="button"
                                     class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
                                     {{recording_form.submit(class='uppercase')}}
                                 </button>
+                                <button type="button"
+                                    class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                    data-bs-dismiss="modal">
+                                    Close
+                                </button>
                             </div>
                         </div>
                     </form>
-                </div>
-                <div
-                    class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                    <button type="button"
-                        class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-                        data-bs-dismiss="modal">
-                        Close
-                    </button>
                 </div>
             </div>
         </div>

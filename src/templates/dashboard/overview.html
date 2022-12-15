@@ -1,34 +1,242 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
     <div class="w-full p-10">
-        <div class="flex flex-row items-center justify-center space-x-10">
-            <div class="w-1/3 p-5 bg-blue-700 rounded-md">
-                <div class="flex flex-col space-y-5 text-white w-full">
-                    <div class="uppercase font-bold">
-                        <p>Total Speaker</p>
+        <div class="flex flex-col space-y-10 items-start w-full">
+            <div class="flex flex-row items-center justify-center space-x-10 w-full">
+                <div class="w-1/3 p-5 bg-blue-700 rounded-md">
+                    <div class="flex flex-col space-y-5 text-white w-full">
+                        <div class="uppercase font-bold">
+                            <p>Total Speaker</p>
+                        </div>
+                        <div class="self-center text-6xl">
+                            <p>{{total_speaker}}</p>
+                        </div>
                     </div>
-                    <div class="self-center text-6xl">
-                        <p>{{total_speaker}}</p>
+                </div>
+                <div class="w-1/3 p-5 bg-blue-500 rounded-md">
+                    <div class="flex flex-col space-y-5 text-white w-full">
+                        <div class="uppercase font-bold">
+                            <p>Total recording</p>
+                        </div>
+                        <div class="self-center text-6xl">
+                            <p>{{total_recording}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/3 p-5 bg-blue-300 rounded-md">
+                    <div class="flex flex-col space-y-5 text-white w-full">
+                        <div class="uppercase font-bold">
+                            <p>Total Audio</p>
+                        </div>
+                        <div class="self-center text-6xl">
+                            <p>{{total_audio}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="w-1/3 p-5 bg-blue-500 rounded-md">
-                <div class="flex flex-col space-y-5 text-white w-full">
-                    <div class="uppercase font-bold">
-                        <p>Total recording</p>
+            <div class="flex flex-col space-y-5 items-start w-full">
+                <div class="uppercase font-bold text-xl border-b-2 border-gray-700 w-full pb-5">
+                    <p>Speaker Summery</p>
+                </div>
+                <div class="w-full flex flex-row space-x-3">
+                    <div class="w-1/2 flex flex-col space-x-5">
+                        <div class="text-blue-500 uppercase font-bold">
+                            <p>Recently Registered</p>
+                        </div>
+                        <div class="w-full">
+                            <div class="flex flex-col">
+                                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                  <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="overflow-hidden">
+                                      <table class="min-w-full">
+                                        <thead class="bg-white border-b">
+                                          <tr>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              #
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              Gender
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              Age
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              Phone Number
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                Register Date
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                              Mark
+                                            </td>
+                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                              Otto
+                                            </td>
+                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                              @mdo
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="self-center text-6xl">
-                        <p>{{total_recording}}</p>
+                    <div class="w-1/2 flex flex-col space-x-5">
+                        <div class="text-green-600 uppercase font-bold">
+                            <p>Completed Speaker</p>
+                        </div>
+                        <div class="w-full">
+                            <div class="flex flex-col">
+                                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                  <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="overflow-hidden">
+                                      <table class="min-w-full">
+                                        <thead class="bg-white border-b">
+                                          <tr>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              #
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              Gender
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              Age
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                              Phone Number
+                                            </th>
+                                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                Register Date
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                              Mark
+                                            </td>
+                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                              Otto
+                                            </td>
+                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                              @mdo
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="w-1/3 p-5 bg-blue-300 rounded-md">
-                <div class="flex flex-col space-y-5 text-white w-full">
-                    <div class="uppercase font-bold">
-                        <p>Total Audio</p>
-                    </div>
-                    <div class="self-center text-6xl">
-                        <p>{{total_audio}}</p>
+            <div class="flex flex-col space-y-5 items-start w-full">
+                <div class="uppercase font-bold text-xl border-b-2 border-gray-700 w-full pb-5">
+                    <p>Latest Export</p>
+                </div>
+                <div class="px-10 w-full">
+                    <div class="flex flex-col">
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden">
+                                    <table class="min-w-full">
+                                        <thead class="bg-white border-b">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    #
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Task name
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Record config
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Gender
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Export name
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Exported at
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Testing ID
+                                                </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    Testing Task Name
+                                                </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    Testing Export ID
+                                                </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    Testing Gender
+                                                </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                   Testing Export Name
+                                                </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    Testing Created Date
+                                                </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex flex-row space-x-5">
+                                                        <div>
+                                                            <a href="">
+                                                                <div class="text-blue-500 border border-dashed border-blue-500 rounded-md drop-shadow-md p-3 py-2 items-center flex flex-row space-x-3 hover:text-white hover:bg-blue-500">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-download"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        Export again
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="">
+                                                                <div class="text-red-500 drop-shadow-md p-3 py-2 items-center flex flex-row space-x-3">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-trash"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        Delete
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
